@@ -1,0 +1,512 @@
+body {
+    margin: 0;
+    padding: 0;
+    background: #87CEEB; /* A nice, simple sky blue */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    font-family: 'Gochi Hand', cursive;
+    overflow: hidden;
+}
+
+.main-menu-container {
+    text-align: center;
+    transition: transform 1s cubic-bezier(0.68, -0.55, 0.27, 1.55), opacity 0.8s ease-out;
+}
+
+.main-menu-container.off-screen {
+    transform: translateY(-150vh) rotate(-30deg);
+    opacity: 0;
+}
+
+.game-title {
+    font-size: 7rem;
+    color: white;
+    text-shadow: 
+        3px 3px 0 #000,
+        -3px 3px 0 #000,
+        3px -3px 0 #000,
+        -3px -3px 0 #000; /* Gives a solid, hand-drawn outline */
+    margin-bottom: 80px;
+    line-height: 1.2;
+    transform: rotate(-2deg); /* A little crooked */
+}
+
+.game-title span {
+    display: inline-block; /* Allows transforms on letters */
+}
+
+@keyframes wiggle {
+    0%, 100% {
+        transform: rotate(-15deg);
+    }
+    50% {
+        transform: rotate(15deg);
+    }
+}
+
+.play-button {
+    font-family: 'Gochi Hand', cursive;
+    font-size: 3rem;
+    padding: 15px 40px;
+    border: 4px solid #000;
+    /* A classic trick for a hand-drawn, wiggly border */
+    border-radius: 255px 15px 225px 15px/15px 225px 15px 255px;
+    background: #32CD32; /* A crayon-like green */
+    color: white;
+    cursor: pointer;
+    text-shadow: 2px 2px 0px rgba(0,0,0,1);
+    transition: all 0.2s ease-in-out;
+    box-shadow: none; /* Removed the complex shadows */
+    position: relative;
+    transform: rotate(1deg); /* Also a little crooked */
+}
+
+.play-button:hover {
+    background: #44e044; /* Brighter on hover */
+    transform: rotate(2deg) scale(1.05); /* Fun, wobbly hover effect */
+}
+
+.play-button:active {
+    transform: rotate(0deg) scale(0.95);
+    background: #28a428;
+}
+
+/* Modal Styles */
+.modal-container {
+    display: none; /* Hidden by default */
+    position: fixed;
+    z-index: 100;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0,0,0,0.5); /* Semi-transparent black overlay */
+    justify-content: center;
+    align-items: center;
+}
+
+.modal-content {
+    background: #fdf5e6; /* Old paper color */
+    padding: 30px 40px;
+    border: 4px solid #000;
+    /* A classic trick for a hand-drawn, wiggly border */
+    border-radius: 255px 15px 225px 15px/15px 225px 15px 255px;
+    text-align: center;
+    width: 80%;
+    max-width: 500px;
+    position: relative;
+    font-family: 'Gochi Hand', cursive;
+    color: #333;
+    transform: rotate(-1deg);
+}
+
+.modal-content h2 {
+    font-size: 2.5rem;
+    margin-top: 0;
+    margin-bottom: 15px;
+}
+
+.modal-content p {
+    font-size: 1.2rem;
+    margin-bottom: 8px;
+    margin-top: 20px;
+}
+
+.modal-content input[type="text"] {
+    font-family: 'Gochi Hand', cursive;
+    font-size: 1.5rem;
+    padding: 10px;
+    border: 3px solid #000;
+    border-radius: 15px 255px 15px 225px/225px 15px 255px 15px;
+    width: calc(100% - 26px); /* 100% - padding - border */
+    margin-bottom: 20px;
+    background: #fff;
+}
+
+.modal-content textarea {
+    height: 120px;
+    resize: none;
+}
+
+.modal-content #start-game-button {
+    font-size: 2rem;
+    margin-top: 10px;
+}
+
+.close-button {
+    position: absolute;
+    top: 10px;
+    right: 20px;
+    color: #000;
+    font-size: 2.5rem;
+    line-height: 1;
+    font-weight: bold;
+    cursor: pointer;
+    transition: transform 0.2s;
+}
+
+.close-button:hover,
+.close-button:focus {
+    color: #555;
+    transform: rotate(10deg) scale(1.1);
+}
+
+/* Game Content Styles */
+.game-content {
+    display: none; /* Managed by JS */
+    position: absolute;
+    width: 100vw;
+    height: 100vh;
+    justify-content: center;
+    align-items: center;
+    top: 0;
+    left: 0;
+}
+
+.quiz-container, #story-summary-container {
+    background: #fdf5e6; /* Old paper color */
+    padding: 30px 40px;
+    border: 4px solid #000;
+    border-radius: 255px 15px 225px 15px/15px 225px 15px 255px;
+    text-align: center;
+    width: 90%;
+    max-width: 800px;
+    color: #333;
+    transform: translateY(150vh) rotate(30deg);
+    opacity: 0;
+    transition: transform 1s cubic-bezier(0.68, -0.55, 0.27, 1.55), opacity 0.8s ease-in;
+}
+
+#story-summary-container {
+    display: none; /* Hidden by default */
+}
+
+.quiz-container.on-screen, #story-summary-container.on-screen {
+    transform: translateY(0) rotate(1deg);
+    opacity: 1;
+}
+
+#quiz-question {
+    font-size: 2.5rem;
+    margin-top: 0;
+    margin-bottom: 30px;
+}
+
+.quiz-options {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 20px;
+}
+
+.quiz-input-container {
+    margin: 20px 0;
+}
+
+.quiz-input-container input {
+    font-family: 'Gochi Hand', cursive;
+    font-size: 1.5rem;
+    padding: 10px;
+    border: 3px solid #000;
+    border-radius: 15px 255px 15px 225px/225px 15px 255px 15px;
+    width: 80%;
+    max-width: 400px;
+    text-align: center;
+    background: #fff;
+}
+
+.option-button {
+    font-family: 'Gochi Hand', cursive;
+    font-size: 1.8rem;
+    padding: 15px 30px;
+    border: 4px solid #000;
+    border-radius: 255px 15px 225px 15px/15px 225px 15px 255px;
+    background: #FFD700; /* Gold */
+    color: white;
+    cursor: pointer;
+    text-shadow: 2px 2px 0px rgba(0,0,0,0.8);
+    transition: all 0.2s ease-in-out;
+    box-shadow: none;
+    position: relative;
+}
+
+.option-button:hover {
+    background: #FFEC8B; /* Lighter Gold */
+    transform: rotate(-2deg) scale(1.05);
+}
+
+.option-button:active {
+    transform: rotate(0deg) scale(0.95);
+    background: #DAA520; /* Goldenrod */
+}
+
+#story-summary-content {
+    font-size: 1.8rem;
+    line-height: 2;
+    margin-bottom: 30px;
+    text-align: left;
+    white-space: pre-wrap; /* a bit redundant with br, but good fallback */
+}
+
+#copy-story-button {
+    font-size: 2rem;
+}
+
+/* Agar.io Game Styles */
+.agario-container {
+    display: none; /* Hidden by default */
+    width: 100vw;
+    height: 100vh;
+    position: relative;
+    justify-content: center;
+    align-items: center;
+    transform: translateY(150vh) rotate(30deg);
+    opacity: 0;
+    transition: transform 1s cubic-bezier(0.68, -0.55, 0.27, 1.55), opacity 0.8s ease-in;
+}
+
+.agario-container.on-screen {
+    transform: translateY(0) rotate(0);
+    opacity: 1;
+}
+
+#game-canvas {
+    width: 100%;
+    height: 100%;
+    background-color: #f0f8ff; /* AliceBlue, a very light blue */
+}
+
+#game-ui {
+    position: absolute;
+    top: 20px;
+    left: 20px;
+    background: rgba(0, 0, 0, 0.1);
+    padding: 10px 20px;
+    border-radius: 20px;
+    font-size: 1.5rem;
+    color: #333;
+    text-shadow: 1px 1px 0 #fff;
+}
+
+#game-ui p {
+    margin: 5px 0;
+}
+
+#agario-end-screen {
+    display: none;
+    position: absolute;
+    z-index: 10;
+    /* Uses .modal-content styles */
+}
+
+#agario-end-screen .play-button {
+    margin: 10px;
+}
+
+.dare-container {
+    display: none;
+    position: absolute;
+    width: 100vw;
+    height: 100vh;
+    overflow: hidden;
+    background: #111;
+    opacity: 0;
+    transition: opacity 0.5s ease-in;
+}
+
+.dare-container.on-screen {
+    opacity: 1;
+}
+
+@keyframes dare-background-pan {
+    0% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+    100% { background-position: 0% 50%; }
+}
+
+.dare-overlay {
+    position: absolute;
+    top: 0; left: 0; right: 0; bottom: 0;
+    background: linear-gradient(45deg, red, orange, yellow, green, blue, indigo, violet);
+    background-size: 400% 400%;
+    animation: dare-background-pan 10s ease infinite;
+    mix-blend-mode: screen;
+    opacity: 0.7;
+}
+
+.dare-instruction {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-size: 5rem;
+    color: white;
+    text-shadow: 3px 3px 0px #000;
+    text-align: center;
+    animation: dare-text-flicker 1.5s infinite alternate;
+    z-index: 5;
+}
+
+@keyframes dare-text-flicker {
+    0% { opacity: 0.8; transform: translate(-50%, -50%) skewX(-5deg); }
+    100% { opacity: 1; transform: translate(-50%, -50%) skewX(5deg); }
+}
+
+.dare-button {
+    font-family: 'Gochi Hand', cursive;
+    font-size: 1rem;
+    padding: 5px 10px;
+    border: 2px solid #fff;
+    border-radius: 5px;
+    background: #000;
+    color: white;
+    cursor: pointer;
+    z-index: 10;
+    transition: transform 0.2s;
+    transform: scale(0.8) rotate(15deg); /* Make it small and weird */
+}
+
+.dare-button:hover {
+    transform: scale(1.5) rotate(0deg);
+    background: #fff;
+    color: #000;
+}
+
+/* Dress-up Game Styles */
+.dress-up-container {
+    display: none;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: 90vw;
+    height: 90vh;
+    max-width: 900px;
+    background: #fdf5e6; /* Old paper color */
+    border: 4px solid #000;
+    border-radius: 255px 15px 225px 15px/15px 225px 15px 255px;
+    opacity: 0;
+    transform: translateY(150vh) rotate(30deg);
+    transition: transform 1s cubic-bezier(0.68, -0.55, 0.27, 1.55), opacity 0.8s ease-in;
+    position: relative;
+    padding: 20px;
+    box-sizing: border-box;
+}
+
+.dress-up-container.on-screen {
+    transform: translateY(0) rotate(1deg);
+    opacity: 1;
+}
+
+#dress-up-main {
+    display: flex;
+    flex-direction: row;
+    width: 100%;
+    height: calc(100% - 100px); /* Leave space for finish button */
+    gap: 20px;
+}
+
+#orb-area {
+    flex-grow: 1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+}
+
+#orb-svg-container {
+    position: relative;
+    width: 300px;
+    height: 300px;
+}
+
+#orb-svg-container svg {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    overflow: visible; /* Allows parts to go outside the viewbox if needed */
+}
+
+#accessory-panel {
+    width: 250px;
+    background: #eaddc7;
+    border-left: 4px solid #000;
+    padding: 10px;
+    overflow-y: auto;
+    border-radius: 15px 255px 15px 225px/225px 15px 255px 15px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.accessory-category {
+    margin-bottom: 10px;
+}
+
+.accessory-category h3 {
+    font-size: 1.5rem;
+    margin: 0 0 10px 0;
+    text-align: center;
+    text-decoration: underline;
+}
+
+.accessory-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 10px;
+}
+
+.accessory-button {
+    width: 100%;
+    height: 80px;
+    background: #fff;
+    border: 3px solid #000;
+    border-radius: 10px;
+    cursor: pointer;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    transition: all 0.2s;
+    padding: 5px;
+    box-sizing: border-box;
+}
+
+.accessory-button:hover {
+    background: #f0f0f0;
+    transform: scale(1.05);
+}
+
+.accessory-button svg {
+    width: 80%;
+    height: 80%;
+}
+
+#finish-dressing-button {
+    margin-top: 20px;
+    align-self: center;
+}
+
+@media (max-width: 768px) {
+    #dress-up-main {
+        flex-direction: column;
+        height: calc(100% - 80px);
+    }
+    #accessory-panel {
+        width: 100%;
+        height: 200px; /* fixed height for panel on mobile */
+        border-left: none;
+        border-top: 4px solid #000;
+        box-sizing: border-box;
+    }
+    #orb-svg-container {
+        width: 200px;
+        height: 200px;
+    }
+    #finish-dressing-button {
+        font-size: 2rem;
+        padding: 10px 25px;
+    }
+}
