@@ -66,6 +66,64 @@
       object-fit: contain;
     }
 
+    /* Wallet Checker Styles */
+    .wallet-checker {
+      text-align: center;
+      margin: 50px auto;
+      max-width: 500px;
+      padding: 20px;
+      background: rgba(255, 255, 255, 0.1);
+      border-radius: 15px;
+      backdrop-filter: blur(5px);
+    }
+
+    .wallet-checker h2 {
+      color: white;
+      margin-bottom: 20px;
+      font-family: 'Comfy Feeling', sans-serif;
+    }
+
+    .wallet-input {
+      padding: 12px 15px;
+      width: 80%;
+      border: 2px solid #ffffff;
+      border-radius: 30px;
+      background: transparent;
+      color: white;
+      font-size: 16px;
+      margin-bottom: 15px;
+    }
+
+    .wallet-input::placeholder {
+      color: rgba(255, 255, 255, 0.7);
+    }
+
+    .check-button {
+      padding: 12px 30px;
+      background: #000000;
+      color: white;
+      border: none;
+      border-radius: 30px;
+      font-family: 'Comfy Feeling', sans-serif;
+      font-size: 16px;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+    }
+
+    .check-button:hover {
+      background: #333333;
+      transform: translateY(-2px);
+    }
+
+    .wallet-result {
+      margin-top: 20px;
+      font-weight: bold;
+      font-size: 18px;
+      color: white;
+      min-height: 27px;
+    }
+
     /* Mobile Responsiveness */
     @media (max-width: 768px) {
       .button-group {
@@ -76,79 +134,37 @@
       .twitter-button, .atlas3-button {
         padding: 10px 20px;
       }
+      .wallet-input {
+        width: 90%;
+      }
     }
     
     /* Social button styling */
     .social-button {
-        position: fixed;
-        top: 20px;
-        right: 20px;
-        background: rgb(2, 0, 15);
-        border: 2px solid #ecdede;
-        border-radius: 50%;
-        width: 50px;
-        height: 50px;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        font-size: 24px;
-        cursor: pointer;
-        z-index: 1000;
-        box-shadow: 0 2px 5px rgba(0,0,0,0.2);
-        transition: all 0.3s ease;
+      position: fixed;
+      top: 20px;
+      right: 20px;
+      background: rgb(2, 0, 15);
+      border: 2px solid #ecdede;
+      border-radius: 50%;
+      width: 50px;
+      height: 50px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 24px;
+      cursor: pointer;
+      z-index: 1000;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+      transition: all 0.3s ease;
     }
     
     .social-button:hover {
-        transform: scale(1.1);
-        background: #f0f0f0;
+      transform: scale(1.1);
+      background: #f0f0f0;
     }
-    <link rel="stylesheet" href="final_styles.css" />
-    <script defer src="final_script.js"></script>
-    <section>
-  <canvas id="beerCanvas"></canvas>
-  <div class="coming_content">
-    <div id="imageAnimation"></div>
-    <h1>He came. He saw. He capy'd the whole scene</h1>
-    <div class="separator_container">
-      <div class="separator line_separator">
-        <span>
-          <svg height="200px" width="200px" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" fill="#ffffff">
-            <g>
-              <path d="M256 112c-79.5 0-144 64.5-144 144s64.5 144 144 144 144-64.5 144-144S335.5 112 256 112zm0 240c-52.9 0-96-43.1-96-96s43.1-96 96-96 96 43.1 96 96-43.1 96-96 96z"/>
-              <path d="M256 192c-35.3 0-64 28.7-64 64s28.7 64 64 64 64-28.7 64-64-28.7-64-64-64zm0 96c-17.7 0-32-14.3-32-32s14.3-32 32-32 32 14.3 32 32-14.3 32-32 32z"/>
-              <path d="M352 200c-8.8 0-16 7.2-16 16s7.2 16 16 16 16-7.2 16-16-7.2-16-16-16zM160 200c-8.8 0-16 7.2-16 16s7.2 16 16 16 16-7.2 16-16-7.2-16-16-16z"/>
-            </g>
-          </svg>
-        </span>
-      </div>
-    </div>
-    <h3>CapyBros is FREE on HyperEVM to make NFTs fun again</h3>
-
-    <div class="button-group">
-      <a href="https://twitter.com/capybros1" target="_blank" class="twitter-button">
-        <svg viewBox="0 0 24 24" class="twitter-icon">
-          <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/>
-        </svg>
-        <span>CATCH ME</span>
-      </a>
-
-      <a href="games/index.html" class="atlas3-button">
-        <img src="images/atlas3-logo.png" alt="Atlas3 Logo" class="atlas3-logo" />
-        <span>Don’t play</span>
-      </a>
-
-      <button class="wallet-check-button" onclick="checkWallet()">Check Wallet Eligibility</button>
-    </div>
-
-    <div class="wallet-check">
-      <input type="text" id="walletInput" placeholder="Enter your wallet..." />
-      <p id="walletResult"></p>
-    </div>
-  </div>
-</section>
-
-<div class="social-button" onclick="window.open('https://linktr.ee/capybros1', '_blank')">🔗</div>
   </style>
+  <link rel="stylesheet" href="final_styles.css" />
 </head>
 <body>
   <section>
@@ -159,7 +175,7 @@
       <div class="separator_container">
         <div class="separator line_separator">
           <span>
-            <svg height="200px" width="200px" version="1.1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" fill="#ffffff">
+            <svg height="200px" width="200px" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" fill="#ffffff">
               <g>
                 <path d="M256 112c-79.5 0-144 64.5-144 144s64.5 144 144 144 144-64.5 144-144S335.5 112 256 112zm0 240c-52.9 0-96-43.1-96-96s43.1-96 96-96 96 43.1 96 96-43.1 96-96 96z"/>
                 <path d="M256 192c-35.3 0-64 28.7-64 64s28.7 64 64 64 64-28.7 64-64-28.7-64-64-64zm0 96c-17.7 0-32-14.3-32-32s14.3-32 32-32 32 14.3 32 32-14.3 32-32 32z"/>
@@ -170,10 +186,8 @@
         </div>
       </div>
       <h3>CapyBros is FREE on HyperEVM to make NFTs fun again</h3>
-      
-      <!-- Button Group -->
+
       <div class="button-group">
-        <!-- Twitter Button -->
         <a href="https://twitter.com/capybros1" target="_blank" class="twitter-button">
           <svg viewBox="0 0 24 24" class="twitter-icon">
             <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/>
@@ -181,24 +195,55 @@
           <span>CATCH ME</span>
         </a>
 
-        <!-- Atlas3 Button -->
         <a href="games/index.html" class="atlas3-button">
-  <img src="images/atlas3-logo.png" alt="Atlas3 Logo" class="logo-img">
-  <span>Don’t play</span>
+          <img src="images/atlas3-logo.png" alt="Atlas3 Logo" class="atlas3-logo" />
+          <span>Don't play</span>
         </a>
-      </div> 
+      </div>
     </div>
   </section>
-  <script src="js/script.js"></script>
-  
+
+  <!-- Wallet Checker Section -->
+  <div class="wallet-checker">
+    <h2>Check Wallet Eligibility</h2>
+    <input type="text" id="walletInput" class="wallet-input" placeholder="Enter your wallet address" />
+    <button class="check-button" onclick="checkWallet()">Check Eligibility</button>
+    <p id="walletResult" class="wallet-result"></p>
+  </div>
+
   <!-- Social button -->
   <div class="social-button" onclick="window.open('https://linktr.ee/capybros1', '_blank')">🔗</div>
 
-  <div id="wallet-checker" style="text-align:center; margin: 50px 0;">
-  <h2>Check Wallet Eligibility</h2>
-  <input type="text" id="walletInput" placeholder="Enter your wallet address" style="padding:10px; width:300px;" />
-  <br><br>
-  <button onclick="checkWallet()" style="padding:10px 20px; font-size:16px;">Check</button>
-  <p id="walletResult" style="margin-top:20px; font-weight:bold; font-size:18px;"></p>
-</div>
-
+  <script src="js/script.js"></script>
+  <script src="final_script.js"></script>
+  <script>
+    function checkWallet() {
+      const walletAddress = document.getElementById('walletInput').value.trim();
+      const resultElement = document.getElementById('walletResult');
+      
+      if (!walletAddress) {
+        resultElement.textContent = "Please enter a wallet address";
+        return;
+      }
+      
+      // Show loading state
+      resultElement.textContent = "Checking...";
+      
+      // Simulate API call (replace with actual check)
+      setTimeout(() => {
+        // This is a placeholder - replace with your actual eligibility check
+        // For now, it randomly returns one of the statuses
+        const randomNum = Math.random();
+        
+        if (randomNum > 0.7) {
+          resultElement.textContent = "GTD Eligible";
+        } else if (randomNum > 0.4) {
+          resultElement.textContent = "FCFS Eligible";
+        } else {
+          resultElement.textContent = "You are not eligible";
+        }
+      }, 1500);
+    }
+  </script>
+</body>
+</html>
