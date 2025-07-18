@@ -191,6 +191,50 @@ section {
   height: 18px;
   object-fit: contain;
 }
+.eligibility-box {
+  margin-top: 30px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+  font-family: 'Comfy Feeling', sans-serif;
+  color: white;
+}
+
+.eligibility-box input {
+  padding: 10px 16px;
+  border-radius: 20px;
+  border: 2px solid #fff;
+  width: 260px;
+  background: transparent;
+  color: white;
+  font-size: 16px;
+  text-align: center;
+}
+
+.eligibility-box input::placeholder {
+  color: #aaa;
+}
+
+.eligibility-box button {
+  padding: 10px 24px;
+  border-radius: 25px;
+  background-color: #000;
+  color: white;
+  border: none;
+  cursor: pointer;
+  transition: 0.3s;
+  font-size: 16px;
+}
+
+.eligibility-box button:hover {
+  background-color: #222;
+}
+
+#walletResult {
+  font-size: 16px;
+  font-weight: bold;
+}
 
 /* Mobile Responsiveness */
 @media (max-width: 768px) {
