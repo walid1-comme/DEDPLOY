@@ -1,25 +1,28 @@
-/* Font Import */
+/* =======================
+   Fonts
+========================== */
 @font-face {
   font-family: 'Comfy Feeling';
   src: url('../fonts/Comfy%20Feeling.otf') format('opentype');
 }
 
-/* Global Styles */
+/* =======================
+   Global Styles
+========================== */
 body,
 html {
   display: block;
   padding: 0;
   margin: 0;
   width: 100%;
-  position: relative;
   height: 100%;
-}
-
-body {
+  position: relative;
   font-family: 'Comfy Feeling', 'Arial', sans-serif;
 }
 
-/* Section and Background */
+/* =======================
+   Background
+========================== */
 section {
   position: relative;
   width: 100%;
@@ -27,7 +30,9 @@ section {
   background: radial-gradient(circle, #072723, #ffffff);
 }
 
-/* Canvas */
+/* =======================
+   Canvas
+========================== */
 #beerCanvas {
   position: absolute;
   top: 0;
@@ -37,7 +42,9 @@ section {
   z-index: 100;
 }
 
-/* Coming Content */
+/* =======================
+   Coming Content Section
+========================== */
 .coming_content {
   position: absolute;
   top: 50%;
@@ -51,15 +58,32 @@ section {
 }
 
 .coming_content h1 {
-  font-size: 4rem; /* Equivalent to 90px assuming root font size is 16px */
+  font-size: 4rem;
   margin: 0;
   letter-spacing: 2px;
   text-align: center;
   color: white;
 }
 
-/* Separator */
-.coming_content .separator_container {
+.coming_content h3 {
+  letter-spacing: 2px;
+  line-height: 2;
+  font-size: 1rem;
+  font-weight: 400;
+  text-align: center;
+  margin: 0;
+  font-family: 'Comfy Feeling', sans-serif;
+}
+
+.coming_content h3 a {
+  text-decoration: underline;
+  color: white;
+}
+
+/* =======================
+   Separator
+========================== */
+.separator_container {
   width: 100%;
   display: block;
   text-align: center;
@@ -67,19 +91,19 @@ section {
   margin: 12px 0;
 }
 
-.coming_content .separator {
+.separator {
   color: white;
   margin: 0 auto 1em;
   width: 11em;
 }
 
-.coming_content .line_separator svg {
+.line_separator svg {
   width: 30px;
   height: 20px;
 }
 
-.coming_content .line_separator:before,
-.coming_content .line_separator:after {
+.line_separator:before,
+.line_separator:after {
   display: block;
   width: 40%;
   content: " ";
@@ -87,39 +111,26 @@ section {
   border: 1px solid white;
 }
 
-.coming_content .line_separator:before {
+.line_separator:before {
   float: left;
 }
 
-.coming_content .line_separator:after {
+.line_separator:after {
   float: right;
 }
 
-/* FREE MINT Text */
-.coming_content h3 {
-  font-family: 'Comfy Feeling', sans-serif;
-  letter-spacing: 2px;
-  line-height: 2;
-  font-size: 1rem; /* Equivalent to 16px */
-  font-weight: 400;
-  text-align: center;
-  margin: 0;
-}
-
-.coming_content h3 a {
-  text-decoration: underline;
-}
-
-/* Image Animation */
+/* =======================
+   Image Animation
+========================== */
 #imageAnimation {
   position: absolute;
   left: 50%;
   transform: translate(-50%, -105%);
-  width: 150px; /* Set the width of the image container */
-  height: 150px; /* Set the height of the image container */
+  width: 150px;
+  height: 150px;
   background-size: cover;
   background-position: center;
-  animation: imageCycle 0.5s steps(1) infinite; /* 10fps = 0.1s per frame, 4 frames = 0.4s */
+  animation: imageCycle 0.5s steps(1) infinite;
   z-index: 101;
 }
 
@@ -131,28 +142,35 @@ section {
   100% { background-image: url('../images/bera1.png'); }
 }
 
-/* Button Group */
+/* =======================
+   Button Groups
+========================== */
 .button-group {
   display: flex;
   justify-content: center;
   gap: 15px;
   margin-top: 25px;
+  flex-wrap: wrap;
 }
 
-
-/* Twitter Button */
-.twitter-button {
+/* Generic Button Base Style */
+.button-base {
   display: inline-flex;
   align-items: center;
   gap: 10px;
   padding: 12px 24px;
-  background-color: #000000;
   border-radius: 30px;
-  color: white;
-  text-decoration: none;
   font-family: 'Comfy Feeling', sans-serif;
   transition: all 0.3s ease;
   box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+  text-decoration: none;
+  cursor: pointer;
+}
+
+/* Twitter Button */
+.twitter-button {
+  background-color: #000000;
+  color: white;
 }
 
 .twitter-button:hover {
@@ -167,18 +185,11 @@ section {
 }
 
 /* Atlas3 Button */
-.twitter-button {
-  display: inline-flex;
-  align-items: center;
+.atlas3-button {
+  background-color: #ffffff;
+  color: #000000;
   gap: 8px;
   padding: 10px 20px;
-  background-color: #ffffff;
-  border-radius: 25px;
-  color: #000000;
-  text-decoration: none;
-  font-family: 'Comfy Feeling', sans-serif;
-  transition: all 0.3s ease;
-  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
 }
 
 .atlas3-button:hover {
@@ -192,36 +203,16 @@ section {
   object-fit: contain;
 }
 
-/* Mobile Responsiveness */
-@media (max-width: 768px) {
-  .button-group {
-    flex-direction: column;
-    align-items: center;
-    gap: 12px;
-  }
-
-  .twitter-button, .atlas3-button {
-    padding: 10px 20px;
-  }
-
-  .twitter-icon, .atlas3-logo {
-    width: 16px;
-    height: 16px;
-  }
-  /* ===== WALLET CHECKER ADDITION ===== */
-/* (Add this to the end of your existing styles.css) */
-
+/* =======================
+   Wallet Checker Section
+========================== */
 .wallet-check-button {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  padding: 12px 24px;
   background-color: #000000;
   color: white;
   border: none;
   border-radius: 30px;
   font-family: 'Comfy Feeling', sans-serif;
-  cursor: pointer;
+  padding: 12px 24px;
   transition: all 0.3s ease;
   box-shadow: 0 2px 8px rgba(0,0,0,0.15);
 }
@@ -238,28 +229,14 @@ section {
   text-align: center;
 }
 
-.wallet-check-container input {
+.wallet-input {
   padding: 12px;
   width: 80%;
   border: 2px solid #000;
   border-radius: 30px;
   margin-bottom: 10px;
   text-align: center;
-}
-
-.wallet-check-container button {
-  padding: 12px 24px;
-  background: #000;
-  color: white;
-  border: none;
-  border-radius: 30px;
-  cursor: pointer;
   font-family: 'Comfy Feeling', sans-serif;
-  transition: all 0.3s ease;
-}
-
-.wallet-check-container button:hover {
-  background: #333;
 }
 
 #walletResult {
@@ -268,20 +245,54 @@ section {
   font-size: 1.1rem;
 }
 
-/* Mobile Responsiveness for Wallet Checker */
-@media (max-width: 768px) {
-  .wallet-check-container input {
-    width: 90%;
-  }
-}
-  .wallet-input {
-  padding: 12px;
-  width: 80%;
-  border: 2px solid #000;
-  border-radius: 30px;
-  margin-bottom: 10px;
-  text-align: center;
-  font-family: 'Comfy Feeling', sans-serif;
+/* =======================
+   Social Button
+========================== */
+.social-button {
+  position: fixed;
+  top: 20px;
+  right: 20px;
+  background: rgb(2, 0, 15);
+  border: 2px solid #ecdede;
+  border-radius: 50%;
+  width: 50px;
+  height: 50px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 24px;
+  cursor: pointer;
+  z-index: 1000;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+  transition: all 0.3s ease;
 }
 
+.social-button:hover {
+  transform: scale(1.1);
+  background: #f0f0f0;
+}
+
+/* =======================
+   Mobile Styles
+========================== */
+@media (max-width: 768px) {
+  .button-group {
+    flex-direction: column;
+    align-items: center;
+    gap: 12px;
+  }
+
+  .wallet-input {
+    width: 90%;
+  }
+
+  .twitter-icon,
+  .atlas3-logo {
+    width: 16px;
+    height: 16px;
+  }
+
+  .wallet-check-button {
+    width: 90%;
+  }
 }
