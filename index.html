@@ -3,310 +3,227 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>CopyBrowse</title>
+  <link rel="stylesheet" href="css/styles.css">
+  <title>I'm your CapyBros</title>
   <style>
-    /* Cyberpunk Style */
-    @font-face {
-      font-family: 'Cyber';
-      src: url('https://fonts.cdnfonts.com/css/cyberpunk') format('woff2');
-    }
-    
-    body {
-      margin: 0;
-      padding: 0;
-      background: #000;
-      color: #0ff;
-      font-family: 'Cyber', 'Courier New', monospace;
-      height: 100vh;
-      overflow: hidden;
+    /* Button Group Container */
+    .button-group {
       display: flex;
       justify-content: center;
+      gap: 15px;
+      margin-top: 25px;
+    }
+
+    /* Twitter Button */
+    .twitter-button {
+      display: inline-flex;
       align-items: center;
-      background: radial-gradient(circle at center, #111 0%, #000 100%);
-      text-transform: uppercase;
-    }
-    
-    .container {
-      text-align: center;
-      padding: 20px;
-      max-width: 600px;
-      position: relative;
-    }
-    
-    h1 {
-      font-size: 2.5rem;
-      text-shadow: 0 0 10px #0ff;
-      margin-bottom: 1rem;
-      letter-spacing: 2px;
-    }
-    
-    .subtitle {
-      font-size: 1.2rem;
-      margin-bottom: 2rem;
-      text-shadow: 0 0 5px #0ff;
-      letter-spacing: 1px;
-    }
-    
-    /* Glitch Button Effect */
-    .glitch-btn {
-      position: relative;
-      background: #0ff;
-      color: #000;
-      border: none;
-      padding: 15px 30px;
-      font-size: 1.2rem;
-      cursor: pointer;
-      border-radius: 0;
-      margin: 1rem 0;
-      font-family: 'Cyber', sans-serif;
-      text-transform: uppercase;
-      transition: all 0.3s;
-      overflow: hidden;
-    }
-    
-    .glitch-btn:hover {
-      background: #000;
-      color: #0ff;
-      box-shadow: 0 0 10px #0ff, 0 0 20px #0ff;
-      text-shadow: 0 0 5px #0ff;
-    }
-    
-    .glitch-btn::before {
-      content: "";
-      position: absolute;
-      top: 0;
-      left: -100%;
-      width: 100%;
-      height: 100%;
-      background: linear-gradient(90deg, transparent, rgba(0, 255, 255, 0.4), transparent);
-      transition: 0.5s;
-    }
-    
-    .glitch-btn:hover::before {
-      left: 100%;
-    }
-    
-    /* Wallet Checker */
-    .wallet-input-container {
-      display: none;
-      flex-direction: column;
       gap: 10px;
-      margin: 1rem auto;
-      max-width: 400px;
+      padding: 12px 24px;
+      background-color: #000000;
+      border-radius: 30px;
+      color: white;
+      text-decoration: none;
+      font-family: 'Comfy Feeling', sans-serif;
+      transition: all 0.3s ease;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.15);
     }
-    
-    .wallet-input {
-      padding: 12px;
-      background: rgba(0, 255, 255, 0.1);
-      border: 1px solid #0ff;
-      color: #0ff;
-      font-family: 'Cyber', sans-serif;
-      text-align: center;
-      outline: none;
+
+    .twitter-button:hover {
+      background-color: #333333;
+      transform: translateY(-2px);
     }
-    
-    .wallet-input::placeholder {
-      color: rgba(0, 255, 255, 0.5);
+
+    .twitter-icon {
+      width: 20px;
+      height: 20px;
+      fill: currentColor;
     }
-    
-    .verify-btn {
-      padding: 10px;
-      background: #0ff;
-      color: #000;
-      border: none;
+
+    /* Atlas3 Button */
+    .atlas3-button {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 10px 20px;
+      background-color: #ffffff;
+      border-radius: 25px;
+      color: #000000;
+      text-decoration: none;
+      font-family: 'Comfy Feeling', sans-serif;
+      transition: all 0.3s ease;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    }
+
+    .atlas3-button:hover {
+      background-color: #f0f0f0;
+      transform: translateY(-2px);
+    }
+
+    .atlas3-logo {
+      width: 18px;
+      height: 18px;
+      object-fit: contain;
+    }
+
+    /* Wallet Checker Button - NEW */
+    .wallet-check-button {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 10px 20px;
+      background-color: #000000;
+      border-radius: 25px;
+      color: white;
+      text-decoration: none;
+      font-family: 'Comfy Feeling', sans-serif;
+      transition: all 0.3s ease;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.15);
       cursor: pointer;
-      font-family: 'Cyber', sans-serif;
-      text-transform: uppercase;
-      transition: all 0.3s;
+      border: none;
     }
-    
-    .verify-btn:hover {
-      background: #0dd;
+
+    .wallet-check-container {
+      display: none;
+      margin: 20px auto;
+      max-width: 300px;
+      text-align: center;
     }
-    
+
+    .wallet-check-container input {
+      padding: 10px;
+      width: 80%;
+      border-radius: 20px;
+      border: 1px solid #ccc;
+      margin-bottom: 10px;
+    }
+
     #walletResult {
-      min-height: 1.5rem;
-      font-size: 1.1rem;
-      margin: 1rem 0;
-      text-shadow: 0 0 5px #0ff;
+      font-weight: bold;
+      margin-top: 10px;
     }
-    
-    .footer-text {
-      margin-top: 3rem;
-      font-size: 0.9rem;
-      opacity: 0.7;
-      letter-spacing: 3px;
-    }
-    
-    /* Scanlines Effect */
-    .scanlines {
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      background: linear-gradient(
-        to bottom,
-        rgba(0, 255, 255, 0.03) 0%,
-        rgba(0, 255, 255, 0) 50%,
-        rgba(0, 255, 255, 0.03) 100%
-      );
-      background-size: 100% 4px;
-      pointer-events: none;
-      z-index: 1000;
-    }
-    
-    /* Responsive */
+
+    /* Mobile Responsiveness */
     @media (max-width: 768px) {
-      h1 {
-        font-size: 1.8rem;
+      .button-group {
+        flex-direction: column;
+        align-items: center;
+        gap: 12px;
       }
-      
-      .subtitle {
-        font-size: 1rem;
+      .twitter-button, .atlas3-button, .wallet-check-button {
+        padding: 10px 20px;
       }
-      
-      .glitch-btn {
-        padding: 12px 25px;
-        font-size: 1rem;
-      }
+    }
+    
+    /* Social button styling */
+    .social-button {
+        position: fixed;
+        top: 20px;
+        right: 20px;
+        background: rgb(2, 0, 15);
+        border: 2px solid #ecdede;
+        border-radius: 50%;
+        width: 50px;
+        height: 50px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 24px;
+        cursor: pointer;
+        z-index: 1000;
+        box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+        transition: all 0.3s ease;
+    }
+    
+    .social-button:hover {
+        transform: scale(1.1);
+        background: #f0f0f0;
     }
   </style>
 </head>
 <body>
-  <div class="scanlines"></div>
-  
-  <div class="container">
-    <h1>He came. He saw. He capped the whole scene</h1>
-    <p class="subtitle">CopyBrowse FREE on HyperGVM to make NFTs far again</p>
-    
-    <button class="glitch-btn" id="eligibilityBtn">CHECK ELIGIBILITY</button>
-    
-    <div class="wallet-input-container" id="walletInputContainer">
-      <input type="text" id="walletInput" class="wallet-input" placeholder="ENTER WALLET ADDRESS">
-      <button class="verify-btn" id="verifyBtn">VERIFY</button>
-    </div>
-    
-    <div id="walletResult"></div>
-    
-    <p class="footer-text">Active+Windows</p>
-  </div>
-
-  <script>
-    // DOM Elements
-    const eligibilityBtn = document.getElementById('eligibilityBtn');
-    const walletInputContainer = document.getElementById('walletInputContainer');
-    const verifyBtn = document.getElementById('verifyBtn');
-    const walletInput = document.getElementById('walletInput');
-    const walletResult = document.getElementById('walletResult');
-    
-    // Wallet eligibility lists
-    let GTD = [];
-    let FCFS = [];
-    
-    // Toggle wallet input visibility
-    function toggleWalletCheck() {
-      walletInputContainer.style.display = walletInputContainer.style.display === 'flex' ? 'none' : 'flex';
-      walletInput.focus();
-    }
-    
-    // Fetch CSV data from Google Sheets
-    async function fetchList(csvUrl) {
-      try {
-        const res = await fetch(csvUrl);
-        if (!res.ok) throw new Error('Failed to fetch list');
-        const txt = await res.text();
-        return txt
-          .split('\n')
-          .map(line => line.trim().toLowerCase())
-          .filter(line => line);
-      } catch (error) {
-        console.error('Error fetching list:', error);
-        return [];
-      }
-    }
-    
-    // Load both eligibility lists
-    async function loadLists() {
-      try {
-        [GTD, FCFS] = await Promise.all([
-          fetchList('https://docs.google.com/spreadsheets/d/YOUR_GTD_SHEET_ID/export?format=csv'),
-          fetchList('https://docs.google.com/spreadsheets/d/YOUR_FCFS_SHEET_ID/export?format=csv')
-        ]);
-        console.log('Lists loaded successfully');
-      } catch (error) {
-        console.error('Error loading lists:', error);
-      }
-    }
-    
-    // Check wallet eligibility
-    function checkWallet() {
-      const input = walletInput.value.trim().toLowerCase();
+  <section>
+    <canvas id="beerCanvas"></canvas>
+    <div class="coming_content">
+      <div id="imageAnimation"></div>
+      <h1>He came. He saw. He capy'd the whole scene</h1>
+      <div class="separator_container">
+        <div class="separator line_separator">
+          <span>
+            <svg height="200px" width="200px" version="1.1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" fill="#ffffff">
+              <g>
+                <path d="M256 112c-79.5 0-144 64.5-144 144s64.5 144 144 144 144-64.5 144-144S335.5 112 256 112zm0 240c-52.9 0-96-43.1-96-96s43.1-96 96-96 96 43.1 96 96-43.1 96-96 96z"/>
+                <path d="M256 192c-35.3 0-64 28.7-64 64s28.7 64 64 64 64-28.7 64-64-28.7-64-64-64zm0 96c-17.7 0-32-14.3-32-32s14.3-32 32-32 32 14.3 32 32-14.3 32-32 32z"/>
+                <path d="M352 200c-8.8 0-16 7.2-16 16s7.2 16 16 16 16-7.2 16-16-7.2-16-16-16zM160 200c-8.8 0-16 7.2-16 16s7.2 16 16 16 16-7.2 16-16-7.2-16-16-16z"/>
+              </g>
+            </svg>
+          </span>
+        </div>
+      </div>
+      <h3>CapyBros is FREE on HyperEVM to make NFTs fun again</h3>
       
-      if (!input) {
-        walletResult.textContent = 'PLEASE ENTER WALLET ADDRESS';
-        walletResult.style.color = '#ff0000';
-        walletResult.style.textShadow = '0 0 5px #ff0000';
+      <!-- Button Group -->
+      <div class="button-group">
+        <!-- Twitter Button -->
+        <a href="https://twitter.com/capybros1" target="_blank" class="twitter-button">
+          <svg viewBox="0 0 24 24" class="twitter-icon">
+            <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/>
+          </svg>
+          <span>CATCH ME</span>
+        </a>
+
+        <!-- Atlas3 Button -->
+        <a href="games/index.html" class="atlas3-button">
+          <img src="images/atlas3-logo.png" alt="Atlas3 Logo" class="atlas3-logo" />
+          <span>Don't play</span>
+        </a>
+
+        <!-- NEW Wallet Check Button -->
+        <button class="wallet-check-button" onclick="toggleWalletCheck()">
+          <span>CHECK ELIGIBILITY</span>
+        </button>
+      </div>
+
+      <!-- NEW Wallet Check Container -->
+      <div class="wallet-check-container" id="walletCheckContainer">
+        <input type="text" id="walletInput" placeholder="Enter wallet address">
+        <button onclick="checkWallet()">VERIFY</button>
+        <p id="walletResult"></p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Social button -->
+  <div class="social-button" onclick="window.open('https://linktr.ee/capybros1', '_blank')">🔗</div>
+
+  <script src="js/script.js"></script>
+  <script>
+    // NEW Wallet Check Functions
+    function toggleWalletCheck() {
+      const container = document.getElementById('walletCheckContainer');
+      container.style.display = container.style.display === 'block' ? 'none' : 'block';
+    }
+
+    function checkWallet() {
+      const wallet = document.getElementById('walletInput').value.trim().toLowerCase();
+      const result = document.getElementById('walletResult');
+      
+      if (!wallet) {
+        result.textContent = "Please enter a wallet";
         return;
       }
       
-      walletResult.textContent = 'CHECKING...';
-      walletResult.style.color = '#0ff';
-      walletResult.style.textShadow = '0 0 5px #0ff';
+      result.textContent = "Checking...";
       
+      // Replace this with your actual check:
       setTimeout(() => {
-        if (GTD.includes(input)) {
-          walletResult.innerHTML = 'GTD ELIGIBLE <span style="color:#0f0">(GUARANTEED MINT)</span>';
-          walletResult.style.textShadow = '0 0 5px #0f0';
-        } else if (FCFS.includes(input)) {
-          walletResult.innerHTML = 'FCFS ELIGIBLE <span style="color:#ff0">(IF REMAINING)</span>';
-          walletResult.style.textShadow = '0 0 5px #ff0';
+        if (Math.random() > 0.5) {
+          result.textContent = "GTD Eligible";
         } else {
-          walletResult.textContent = 'NOT ELIGIBLE - WALLET NOT FOUND';
-          walletResult.style.color = '#f00';
-          walletResult.style.textShadow = '0 0 5px #f00';
+          result.textContent = "Not eligible";
         }
       }, 800);
     }
-    
-    // Initialize
-    document.addEventListener('DOMContentLoaded', () => {
-      loadLists();
-      
-      // Button event listeners
-      eligibilityBtn.addEventListener('click', toggleWalletCheck);
-      verifyBtn.addEventListener('click', checkWallet);
-      
-      // Enter key to submit
-      walletInput.addEventListener('keypress', (e) => {
-        if (e.key === 'Enter') {
-          checkWallet();
-        }
-      });
-      
-      // Glitch effect on text hover
-      document.querySelectorAll('h1, .subtitle').forEach(el => {
-        el.addEventListener('mouseenter', () => {
-          el.style.animation = 'glitch 0.5s linear infinite';
-        });
-        el.addEventListener('mouseleave', () => {
-          el.style.animation = 'none';
-        });
-      });
-    });
-    
-    // Glitch animation
-    const style = document.createElement('style');
-    style.textContent = `
-      @keyframes glitch {
-        0% { text-shadow: 2px 0 #0ff, -2px 0 #f0f; }
-        25% { text-shadow: -2px 0 #0ff, 2px 0 #f0f; }
-        50% { text-shadow: 2px 0 #f0f, -2px 0 #0ff; }
-        75% { text-shadow: -2px 0 #f0f, 2px 0 #0ff; }
-        100% { text-shadow: 2px 0 #0ff, -2px 0 #f0f; }
-      }
-    `;
-    document.head.appendChild(style);
   </script>
 </body>
 </html>
