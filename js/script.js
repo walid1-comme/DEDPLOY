@@ -51,12 +51,12 @@ let fcfsWallets = [];
 async function loadWalletLists() {
   try {
     // GTD Sheet
-    const gtdResponse = await fetch('https://docs.google.com/spreadsheets/d/1QZ_Uw5npIAnFm5nMdtevvmcrrXUj8e9D0RJtD8NbS7M/gviz/tq?tqx=out:csv');
+    const gtdResponse = await fetch('https://docs.google.com/spreadsheets/d/1QZ_Uw5npIAnFm5nMdtevvmcrrXUj8e9D0RJtD8NbS7M/export?format=csv');
     const gtdData = await gtdResponse.text();
     gtdWallets = gtdData.split('\n').map(wallet => wallet.trim().toLowerCase());
     
     // FCFS Sheet
-    const fcfsResponse = await fetch('https://docs.google.com/spreadsheets/d/1IeTuABc_tKagmvYilg7ctZoSYL1wXg2Fx24XiEyU6U0/gviz/tq?tqx=out:csv');
+    const fcfsResponse = await fetch('https://docs.google.com/spreadsheets/d/1IeTuABc_tKagmvYilg7ctZoSYL1wXg2Fx24XiEyU6U0/export?format=csv');
     const fcfsData = await fcfsResponse.text();
     fcfsWallets = fcfsData.split('\n').map(wallet => wallet.trim().toLowerCase());
     
