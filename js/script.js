@@ -1,11 +1,8 @@
+// Background animation
 var canvas = document.getElementById('beerCanvas');
 var ctx = canvas.getContext('2d');
 var particles = [];
 var particleCount = 280;
-
-for (var i = 0; i < particleCount; i++) {
-  particles.push(new particle());
-}
 
 function particle() {
   this.x = Math.random() * canvas.width;
@@ -15,9 +12,8 @@ function particle() {
   this.opacity = (Math.random() * 100) / 1000;
 }
 
-function loop() {
-  requestAnimationFrame(loop);
-  draw();
+for (var i = 0; i < particleCount; i++) {
+  particles.push(new particle());
 }
 
 function draw() {
@@ -30,69 +26,67 @@ function draw() {
     ctx.arc(p.x, p.y, p.radius, 0, Math.PI * 2, false);
     ctx.fill();
     p.y -= p.speed;
-    if (p.y <= -10)
-      particles[i] = new particle();
+    if (p.y <= -10) particles[i] = new particle();
   }
+}
+
+function loop() {
+  requestAnimationFrame(loop);
+  draw();
 }
 
 loop();
 
-// Wallet Check Functions
-function toggleWalletCheck() {
-  const container = document.getElementById('walletCheckContainer');
-  container.style.display = container.style.display === 'block' ? 'none' : 'block';
-}
-
-// Cache for wallet lists
+// Wallet Check Logic
 let gtdWallets = [];
 let fcfsWallets = [];
 
-// Load wallet lists from Google Sheets
 async function loadWalletLists() {
   try {
-    // GTD Sheet
-    const gtdResponse = await fetch('https://docs.google.com/spreadsheets/d/1QZ_Uw5npIAnFm5nMdtevvmcrrXUj8e9D0RJtD8NbS7M/export?format=csv');
-    const gtdData = await gtdResponse.text();
-    gtdWallets = gtdData.split('\n').map(wallet => wallet.trim().toLowerCase());
-    
-    // FCFS Sheet
-    const fcfsResponse = await fetch('https://docs.google.com/spreadsheets/d/1IeTuABc_tKagmvYilg7ctZoSYL1wXg2Fx24XiEyU6U0/export?format=csv');
-    const fcfsData = await fcfsResponse.text();
-    fcfsWallets = fcfsData.split('\n').map(wallet => wallet.trim().toLowerCase());
-    
-    console.log('Wallet lists loaded successfully');
-  } catch (error) {
-    console.error('Error loading wallet lists:', error);
+    const gtdRes = await fetch('https://docs.google.com/spreadsheets/d/1QZ_Uw5npIAnFm5nMdtevvmcrrXUj8e9D0RJtD8NbS7M/export?format=csv');
+    const gtdData = await gtdRes.text();
+    gtdWallets = gtdData
+      .split('\n')
+      .map(w => w.trim().toLowerCase())
+      .filter(w => w && !w.includes("wallet"));
+
+    const fcfsRes = await fetch('https://docs.google.com/spreadsheets/d/1IeTuABc_tKagmvYilg7ctZoSYL1wXg2Fx24XiEyU6U0/export?format=csv');
+    const fcfsData = await fcfsRes.text();
+    fcfsWallets = fcfsData
+      .split('\n')
+      .map(w => w.trim().toLowerCase())
+      .filter(w => w && !w.includes("wallet"));
+
+    console.log("Wallet lists loaded.");
+  } catch (err) {
+    console.error("Error loading wallets:", err);
   }
 }
 
-// Check wallet against the lists
 async function checkWallet() {
   const wallet = document.getElementById('walletInput').value.trim().toLowerCase();
   const result = document.getElementById('walletResult');
-  
+
   if (!wallet) {
-    result.textContent = "Please enter a wallet address";
+    result.textContent = "⚠️ Please enter a wallet address.";
     result.style.color = "red";
     return;
   }
-  
-  // If lists haven't been loaded yet, load them
+
   if (gtdWallets.length === 0 || fcfsWallets.length === 0) {
     result.textContent = "Loading wallet lists...";
     result.style.color = "orange";
     await loadWalletLists();
   }
-  
+
   result.textContent = "Checking...";
   result.style.color = "orange";
-  
-  // Check against the lists
+
   if (gtdWallets.includes(wallet)) {
-    result.textContent = "✅ GTD Eligible";
+    result.textContent = "✅ Guaranteed Phase (GTD) — You're eligible!";
     result.style.color = "green";
   } else if (fcfsWallets.includes(wallet)) {
-    result.textContent = "✅ FCFS Eligible";
+    result.textContent = "✅ First Come First Serve (FCFS) — You're eligible!";
     result.style.color = "green";
   } else {
     result.textContent = "❌ Not eligible";
@@ -100,5 +94,10 @@ async function checkWallet() {
   }
 }
 
-// Load wallet lists when the page loads
+function toggleWalletCheck() {
+  const container = document.getElementById('walletCheckContainer');
+  container.style.display = container.style.display === 'block' ? 'none' : 'block';
+}
+
+// Preload the wallet lists
 loadWalletLists();
