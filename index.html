@@ -3,95 +3,66 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <link rel="stylesheet" href="css/styles.css">
-  <title>I'm your CapyBros</title>
+  <title>CopyBros</title>
   <style>
-    /* Button Group Container */
-    .button-group {
-      display: flex;
-      justify-content: center;
-      gap: 15px;
-      margin-top: 25px;
+    /* Font Import */
+    @font-face {
+      font-family: 'Comfy Feeling';
+      src: url('fonts/Comfy%20Feeling.otf') format('opentype');
     }
 
-    /* Twitter Button */
-    .twitter-button {
-      display: inline-flex;
-      align-items: center;
-      gap: 10px;
-      padding: 12px 24px;
-      background-color: #000000;
-      border-radius: 30px;
+    /* Global Styles */
+    body, html {
+      margin: 0;
+      padding: 0;
+      width: 100%;
+      height: 100%;
+      font-family: 'Comfy Feeling', Arial, sans-serif;
+      background: radial-gradient(circle, #072723, #000000);
       color: white;
-      text-decoration: none;
-      font-family: 'Comfy Feeling', sans-serif;
-      transition: all 0.3s ease;
-      box-shadow: 0 2px 8px rgba(0,0,0,0.15);
-    }
-
-    .twitter-button:hover {
-      background-color: #333333;
-      transform: translateY(-2px);
-    }
-
-    .twitter-icon {
-      width: 20px;
-      height: 20px;
-      fill: currentColor;
-    }
-
-    /* Atlas3 Button */
-    .atlas3-button {
-      display: inline-flex;
-      align-items: center;
-      gap: 8px;
-      padding: 10px 20px;
-      background-color: #ffffff;
-      border-radius: 25px;
-      color: #000000;
-      text-decoration: none;
-      font-family: 'Comfy Feeling', sans-serif;
-      transition: all 0.3s ease;
-      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
-    }
-
-    .atlas3-button:hover {
-      background-color: #f0f0f0;
-      transform: translateY(-2px);
-    }
-
-    .atlas3-logo {
-      width: 18px;
-      height: 18px;
-      object-fit: contain;
-    }
-
-    /* Wallet Checker Styles */
-    .wallet-checker {
       text-align: center;
-      margin: 50px auto;
-      max-width: 500px;
-      padding: 20px;
-      background: rgba(255, 255, 255, 0.1);
-      border-radius: 15px;
-      backdrop-filter: blur(5px);
+      overflow-x: hidden;
     }
 
-    .wallet-checker h2 {
-      color: white;
-      margin-bottom: 20px;
-      font-family: 'Comfy Feeling', sans-serif;
+    /* Main Container */
+    .main-container {
+      position: relative;
+      width: 100%;
+      height: 100vh;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+    }
+
+    /* Text Styles */
+    h1 {
+      font-size: 2.5rem;
+      margin-bottom: 0.5rem;
+    }
+
+    p {
+      font-size: 1.2rem;
+      margin-bottom: 2rem;
+    }
+
+    /* Wallet Checker */
+    .wallet-checker {
+      margin-top: 2rem;
+      width: 90%;
+      max-width: 500px;
     }
 
     .wallet-input {
-      padding: 12px 15px;
-      width: 80%;
-      border: 2px solid #ffffff;
+      width: 100%;
+      padding: 15px;
+      border: 2px solid white;
       border-radius: 30px;
       background: transparent;
       color: white;
-      font-size: 16px;
-      margin-bottom: 15px;
+      font-size: 1rem;
+      text-align: center;
+      margin-bottom: 1rem;
     }
 
     .wallet-input::placeholder {
@@ -99,151 +70,148 @@
     }
 
     .check-button {
-      padding: 12px 30px;
-      background: #000000;
+      width: 100%;
+      padding: 15px;
+      background: black;
       color: white;
       border: none;
       border-radius: 30px;
-      font-family: 'Comfy Feeling', sans-serif;
-      font-size: 16px;
+      font-size: 1rem;
       cursor: pointer;
       transition: all 0.3s ease;
-      box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+      margin-bottom: 1rem;
     }
 
     .check-button:hover {
-      background: #333333;
-      transform: translateY(-2px);
+      background: #333;
     }
 
-    .wallet-result {
-      margin-top: 20px;
+    #walletResult {
+      font-size: 1.2rem;
       font-weight: bold;
-      font-size: 18px;
+      min-height: 1.5rem;
+    }
+
+    /* Footer Buttons */
+    .button-container {
+      display: flex;
+      gap: 15px;
+      margin-top: 2rem;
+    }
+
+    .action-button {
+      padding: 12px 25px;
+      border-radius: 30px;
+      font-size: 1rem;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      text-decoration: none;
+    }
+
+    .twitter-button {
+      background: black;
       color: white;
-      min-height: 27px;
+    }
+
+    .play-button {
+      background: white;
+      color: black;
     }
 
     /* Mobile Responsiveness */
     @media (max-width: 768px) {
-      .button-group {
+      h1 {
+        font-size: 1.8rem;
+      }
+      
+      p {
+        font-size: 1rem;
+      }
+      
+      .button-container {
         flex-direction: column;
-        align-items: center;
-        gap: 12px;
+        gap: 10px;
       }
-      .twitter-button, .atlas3-button {
-        padding: 10px 20px;
-      }
-      .wallet-input {
-        width: 90%;
-      }
-    }
-    
-    /* Social button styling */
-    .social-button {
-      position: fixed;
-      top: 20px;
-      right: 20px;
-      background: rgb(2, 0, 15);
-      border: 2px solid #ecdede;
-      border-radius: 50%;
-      width: 50px;
-      height: 50px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 24px;
-      cursor: pointer;
-      z-index: 1000;
-      box-shadow: 0 2px 5px rgba(0,0,0,0.2);
-      transition: all 0.3s ease;
-    }
-    
-    .social-button:hover {
-      transform: scale(1.1);
-      background: #f0f0f0;
     }
   </style>
-  <link rel="stylesheet" href="final_styles.css" />
 </head>
 <body>
-  <section>
-    <canvas id="beerCanvas"></canvas>
-    <div class="coming_content">
-      <div id="imageAnimation"></div>
-      <h1>He came. He saw. He capy'd the whole scene</h1>
-      <div class="separator_container">
-        <div class="separator line_separator">
-          <span>
-            <svg height="200px" width="200px" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" fill="#ffffff">
-              <g>
-                <path d="M256 112c-79.5 0-144 64.5-144 144s64.5 144 144 144 144-64.5 144-144S335.5 112 256 112zm0 240c-52.9 0-96-43.1-96-96s43.1-96 96-96 96 43.1 96 96-43.1 96-96 96z"/>
-                <path d="M256 192c-35.3 0-64 28.7-64 64s28.7 64 64 64 64-28.7 64-64-28.7-64-64-64zm0 96c-17.7 0-32-14.3-32-32s14.3-32 32-32 32 14.3 32 32-14.3 32-32 32z"/>
-                <path d="M352 200c-8.8 0-16 7.2-16 16s7.2 16 16 16 16-7.2 16-16-7.2-16-16-16zM160 200c-8.8 0-16 7.2-16 16s7.2 16 16 16 16-7.2 16-16-7.2-16-16-16z"/>
-              </g>
-            </svg>
-          </span>
-        </div>
-      </div>
-      <h3>CapyBros is FREE on HyperEVM to make NFTs fun again</h3>
-
-      <div class="button-group">
-        <a href="https://twitter.com/capybros1" target="_blank" class="twitter-button">
-          <svg viewBox="0 0 24 24" class="twitter-icon">
-            <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/>
-          </svg>
-          <span>CATCH ME</span>
-        </a>
-
-        <a href="games/index.html" class="atlas3-button">
-          <img src="images/atlas3-logo.png" alt="Atlas3 Logo" class="atlas3-logo" />
-          <span>Don't play</span>
-        </a>
-      </div>
+  <div class="main-container">
+    <h1>He came. He saw. He capped the whole scene</h1>
+    <p>CopyBros is FREE on HyperEVM to make NFTs fun again</p>
+    
+    <div class="wallet-checker">
+      <input type="text" id="walletInput" class="wallet-input" placeholder="Enter your wallet address">
+      <button class="check-button" onclick="checkWallet()">CHECK ELIGIBILITY</button>
+      <p id="walletResult"></p>
     </div>
-  </section>
-
-  <!-- Wallet Checker Section -->
-  <div class="wallet-checker">
-    <h2>Check Wallet Eligibility</h2>
-    <input type="text" id="walletInput" class="wallet-input" placeholder="Enter your wallet address" />
-    <button class="check-button" onclick="checkWallet()">Check Eligibility</button>
-    <p id="walletResult" class="wallet-result"></p>
+    
+    <div class="button-container">
+      <a href="https://twitter.com/copybros" class="action-button twitter-button">CATCH ME</a>
+      <a href="#" class="action-button play-button">Don't play</a>
+    </div>
   </div>
 
-  <!-- Social button -->
-  <div class="social-button" onclick="window.open('https://linktr.ee/capybros1', '_blank')">🔗</div>
-
-  <script src="js/script.js"></script>
-  <script src="final_script.js"></script>
   <script>
+    // Wallet eligibility lists
+    let GTD = [];
+    let FCFS = [];
+
+    // Fetch CSV data from Google Sheets
+    async function fetchList(csvUrl) {
+      try {
+        const res = await fetch(csvUrl);
+        if (!res.ok) throw new Error('Failed to fetch list');
+        const txt = await res.text();
+        return txt
+          .split('\n')
+          .map(line => line.trim().toLowerCase())
+          .filter(line => line);
+      } catch (error) {
+        console.error('Error fetching list:', error);
+        return [];
+      }
+    }
+
+    // Load both eligibility lists
+    async function loadLists() {
+      try {
+        [GTD, FCFS] = await Promise.all([
+          fetchList('https://docs.google.com/spreadsheets/d/1QZ_Uw5npIAnFm5nMdtevvmcrrXUj8e9D0RJtD8NbS7M/export?format=csv'),
+          fetchList('https://docs.google.com/spreadsheets/d/1IeTuABc_tKagmvYilg7ctZoSYL1wXg2Fx24XiEyU6U0/export?format=csv')
+        ]);
+        console.log('Lists loaded successfully');
+      } catch (error) {
+        console.error('Error loading lists:', error);
+      }
+    }
+
+    // Check wallet eligibility
     function checkWallet() {
-      const walletAddress = document.getElementById('walletInput').value.trim();
-      const resultElement = document.getElementById('walletResult');
-      
-      if (!walletAddress) {
-        resultElement.textContent = "Please enter a wallet address";
+      const input = document.getElementById('walletInput').value.trim().toLowerCase();
+      const result = document.getElementById('walletResult');
+
+      if (!input) {
+        result.textContent = 'Please enter a wallet address';
         return;
       }
-      
-      // Show loading state
-      resultElement.textContent = "Checking...";
-      
-      // Simulate API call (replace with actual check)
+
+      result.textContent = 'Checking...';
+
+      // Small delay to allow UI to update
       setTimeout(() => {
-        // This is a placeholder - replace with your actual eligibility check
-        // For now, it randomly returns one of the statuses
-        const randomNum = Math.random();
-        
-        if (randomNum > 0.7) {
-          resultElement.textContent = "GTD Eligible";
-        } else if (randomNum > 0.4) {
-          resultElement.textContent = "FCFS Eligible";
+        if (GTD.includes(input)) {
+          result.textContent = 'GTD Eligible 🎉';
+        } else if (FCFS.includes(input)) {
+          result.textContent = 'FCFS Eligible 👍';
         } else {
-          resultElement.textContent = "You are not eligible";
+          result.textContent = 'Not eligible 😢';
         }
-      }, 1500);
+      }, 500);
     }
+
+    // Load lists when page loads
+    window.addEventListener('load', loadLists);
   </script>
 </body>
 </html>
