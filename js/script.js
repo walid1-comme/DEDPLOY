@@ -68,18 +68,22 @@ let FCFS = [];
 function toggleWalletCheck() {
   const container = document.getElementById('walletCheckContainer');
   container.style.display = container.style.display === 'block' ? 'none' : 'block';
+  if (container.style.display === 'block') {
+    document.getElementById('walletInput').focus();
+  }
 }
 
 // Fetch data from Google Sheets
 async function fetchSheetData(sheetID) {
   try {
+    // Use the published CSV export URL
     const response = await fetch(
       `https://docs.google.com/spreadsheets/d/${sheetID}/export?format=csv`
     );
     const text = await response.text();
     return text.split('\n')
       .map(line => line.trim().toLowerCase())
-      .filter(line => line);
+      .filter(line => line.startsWith('0x') && line.length === 42); // Basic ETH address validation
   } catch (error) {
     console.error('Error fetching sheet:', error);
     return [];
@@ -90,10 +94,10 @@ async function fetchSheetData(sheetID) {
 async function loadEligibilityLists() {
   try {
     [GTD, FCFS] = await Promise.all([
-      fetchSheetData('YOUR_GTD_SHEET_ID'), // Replace with actual ID
-      fetchSheetData('YOUR_FCFS_SHEET_ID') // Replace with actual ID
+      fetchSheetData('1QZ_Uw5npIAnFm5nMdtevvmcrrXUj8e9D0RJtD8NbS7M'), // GTD Sheet
+      fetchSheetData('1IeTuABc_tKagmvYilg7ctZoSYL1wXg2Fx24XiEyU6U0')  // FCFS Sheet
     ]);
-    console.log('Eligibility lists loaded');
+    console.log(`Loaded ${GTD.length} GTD and ${FCFS.length} FCFS wallets`);
   } catch (error) {
     console.error('Error loading lists:', error);
   }
@@ -109,26 +113,37 @@ async function checkWallet() {
     return;
   }
 
+  // Basic ETH address validation
+  if (!wallet.startsWith('0x') || wallet.length !== 42) {
+    showResult('Invalid wallet format', 'error');
+    return;
+  }
+
   showResult('Checking...', 'checking');
 
   try {
+    // First check GTD list
     if (GTD.includes(wallet)) {
-      showResult('GTD Eligible!', 'gtd-eligible');
-    } else if (FCFS.includes(wallet)) {
-      showResult('FCFS Eligible', 'fcfs-eligible');
-    } else {
-      showResult('Not eligible', 'not-eligible');
+      showResult('✅ GTD Eligible - Guaranteed Spot!', 'gtd-eligible');
+    } 
+    // Then check FCFS list
+    else if (FCFS.includes(wallet)) {
+      showResult('🟡 FCFS Eligible - First Come First Serve', 'fcfs-eligible');
+    } 
+    // Not found in either list
+    else {
+      showResult('❌ Not eligible - Wallet not found', 'not-eligible');
     }
   } catch (error) {
-    showResult('System error - try again', 'error');
-    console.error(error);
+    showResult('⚠️ System error - please try again', 'error');
+    console.error('Wallet check error:', error);
   }
 }
 
 // Display result with styling
 function showResult(message, className) {
   const result = document.getElementById('walletResult');
-  result.textContent = message;
+  result.innerHTML = message;
   result.className = className;
 }
 
@@ -139,6 +154,7 @@ window.addEventListener('resize', () => {
 
 // ===== INITIALIZE EVERYTHING =====
 document.addEventListener('DOMContentLoaded', () => {
+  // Start loading lists immediately
   loadEligibilityLists();
   
   // Set up wallet check button
