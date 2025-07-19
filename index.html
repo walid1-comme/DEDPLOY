@@ -230,4 +230,91 @@
     }
   </script>
 </body>
+  <!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Bubble Animation</title>
+  <style>
+    body {
+      margin: 0;
+      overflow: hidden;
+      background: #000;
+    }
+    canvas {
+      display: block;
+    }
+  </style>
+</head>
+<body>
+  <canvas id="bubbleCanvas"></canvas>
+
+  <script>
+    // Bubble Animation
+    const canvas = document.getElementById('bubbleCanvas');
+    const ctx = canvas.getContext('2d');
+    
+    // Set canvas to full window
+    canvas.width = window.innerWidth;
+    canvas.height = window.innerHeight;
+    
+    // Bubble particles
+    const particles = [];
+    const particleCount = 150;
+    
+    // Create bubble
+    class Bubble {
+      constructor() {
+        this.x = Math.random() * canvas.width;
+        this.y = canvas.height + Math.random() * 100;
+        this.speed = 0.5 + Math.random() * 2;
+        this.radius = 1 + Math.random() * 4;
+        this.opacity = 0.1 + Math.random() * 0.3;
+      }
+      
+      update() {
+        this.y -= this.speed;
+        if (this.y < -10) {
+          this.y = canvas.height + 10;
+          this.x = Math.random() * canvas.width;
+        }
+      }
+      
+      draw() {
+        ctx.beginPath();
+        ctx.arc(this.x, this.y, this.radius, 0, Math.PI * 2);
+        ctx.fillStyle = `rgba(255, 255, 255, ${this.opacity})`;
+        ctx.fill();
+      }
+    }
+    
+    // Create bubbles
+    for (let i = 0; i < particleCount; i++) {
+      particles.push(new Bubble());
+    }
+    
+    // Animation loop
+    function animate() {
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+      
+      particles.forEach(bubble => {
+        bubble.update();
+        bubble.draw();
+      });
+      
+      requestAnimationFrame(animate);
+    }
+    
+    // Handle window resize
+    window.addEventListener('resize', () => {
+      canvas.width = window.innerWidth;
+      canvas.height = window.innerHeight;
+    });
+    
+    // Start animation
+    animate();
+  </script>
+</body>
+</html>
 </html>
