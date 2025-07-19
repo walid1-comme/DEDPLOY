@@ -3,160 +3,213 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>CopyBros</title>
+  <title>CopyBrowse</title>
   <style>
-    /* Font Import */
+    /* Cyberpunk Style */
     @font-face {
-      font-family: 'Comfy Feeling';
-      src: url('fonts/Comfy%20Feeling.otf') format('opentype');
+      font-family: 'Cyber';
+      src: url('https://fonts.cdnfonts.com/css/cyberpunk') format('woff2');
     }
-
-    /* Global Styles */
-    body, html {
+    
+    body {
       margin: 0;
       padding: 0;
-      width: 100%;
-      height: 100%;
-      font-family: 'Comfy Feeling', Arial, sans-serif;
-      background: radial-gradient(circle, #072723, #000000);
-      color: white;
-      text-align: center;
-      overflow-x: hidden;
-    }
-
-    /* Main Container */
-    .main-container {
-      position: relative;
-      width: 100%;
+      background: #000;
+      color: #0ff;
+      font-family: 'Cyber', 'Courier New', monospace;
       height: 100vh;
+      overflow: hidden;
       display: flex;
-      flex-direction: column;
       justify-content: center;
       align-items: center;
+      background: radial-gradient(circle at center, #111 0%, #000 100%);
+      text-transform: uppercase;
     }
-
-    /* Text Styles */
+    
+    .container {
+      text-align: center;
+      padding: 20px;
+      max-width: 600px;
+      position: relative;
+    }
+    
     h1 {
       font-size: 2.5rem;
-      margin-bottom: 0.5rem;
+      text-shadow: 0 0 10px #0ff;
+      margin-bottom: 1rem;
+      letter-spacing: 2px;
     }
-
-    p {
+    
+    .subtitle {
       font-size: 1.2rem;
       margin-bottom: 2rem;
+      text-shadow: 0 0 5px #0ff;
+      letter-spacing: 1px;
     }
-
-    /* Wallet Checker */
-    .wallet-checker {
-      margin-top: 2rem;
-      width: 90%;
-      max-width: 500px;
-    }
-
-    .wallet-input {
-      width: 100%;
-      padding: 15px;
-      border: 2px solid white;
-      border-radius: 30px;
-      background: transparent;
-      color: white;
-      font-size: 1rem;
-      text-align: center;
-      margin-bottom: 1rem;
-    }
-
-    .wallet-input::placeholder {
-      color: rgba(255, 255, 255, 0.7);
-    }
-
-    .check-button {
-      width: 100%;
-      padding: 15px;
-      background: black;
-      color: white;
+    
+    /* Glitch Button Effect */
+    .glitch-btn {
+      position: relative;
+      background: #0ff;
+      color: #000;
       border: none;
-      border-radius: 30px;
-      font-size: 1rem;
-      cursor: pointer;
-      transition: all 0.3s ease;
-      margin-bottom: 1rem;
-    }
-
-    .check-button:hover {
-      background: #333;
-    }
-
-    #walletResult {
+      padding: 15px 30px;
       font-size: 1.2rem;
-      font-weight: bold;
-      min-height: 1.5rem;
-    }
-
-    /* Footer Buttons */
-    .button-container {
-      display: flex;
-      gap: 15px;
-      margin-top: 2rem;
-    }
-
-    .action-button {
-      padding: 12px 25px;
-      border-radius: 30px;
-      font-size: 1rem;
       cursor: pointer;
-      transition: all 0.3s ease;
-      text-decoration: none;
+      border-radius: 0;
+      margin: 1rem 0;
+      font-family: 'Cyber', sans-serif;
+      text-transform: uppercase;
+      transition: all 0.3s;
+      overflow: hidden;
     }
-
-    .twitter-button {
-      background: black;
-      color: white;
+    
+    .glitch-btn:hover {
+      background: #000;
+      color: #0ff;
+      box-shadow: 0 0 10px #0ff, 0 0 20px #0ff;
+      text-shadow: 0 0 5px #0ff;
     }
-
-    .play-button {
-      background: white;
-      color: black;
+    
+    .glitch-btn::before {
+      content: "";
+      position: absolute;
+      top: 0;
+      left: -100%;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(90deg, transparent, rgba(0, 255, 255, 0.4), transparent);
+      transition: 0.5s;
     }
-
-    /* Mobile Responsiveness */
+    
+    .glitch-btn:hover::before {
+      left: 100%;
+    }
+    
+    /* Wallet Checker */
+    .wallet-input-container {
+      display: none;
+      flex-direction: column;
+      gap: 10px;
+      margin: 1rem auto;
+      max-width: 400px;
+    }
+    
+    .wallet-input {
+      padding: 12px;
+      background: rgba(0, 255, 255, 0.1);
+      border: 1px solid #0ff;
+      color: #0ff;
+      font-family: 'Cyber', sans-serif;
+      text-align: center;
+      outline: none;
+    }
+    
+    .wallet-input::placeholder {
+      color: rgba(0, 255, 255, 0.5);
+    }
+    
+    .verify-btn {
+      padding: 10px;
+      background: #0ff;
+      color: #000;
+      border: none;
+      cursor: pointer;
+      font-family: 'Cyber', sans-serif;
+      text-transform: uppercase;
+      transition: all 0.3s;
+    }
+    
+    .verify-btn:hover {
+      background: #0dd;
+    }
+    
+    #walletResult {
+      min-height: 1.5rem;
+      font-size: 1.1rem;
+      margin: 1rem 0;
+      text-shadow: 0 0 5px #0ff;
+    }
+    
+    .footer-text {
+      margin-top: 3rem;
+      font-size: 0.9rem;
+      opacity: 0.7;
+      letter-spacing: 3px;
+    }
+    
+    /* Scanlines Effect */
+    .scanlines {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(
+        to bottom,
+        rgba(0, 255, 255, 0.03) 0%,
+        rgba(0, 255, 255, 0) 50%,
+        rgba(0, 255, 255, 0.03) 100%
+      );
+      background-size: 100% 4px;
+      pointer-events: none;
+      z-index: 1000;
+    }
+    
+    /* Responsive */
     @media (max-width: 768px) {
       h1 {
         font-size: 1.8rem;
       }
       
-      p {
+      .subtitle {
         font-size: 1rem;
       }
       
-      .button-container {
-        flex-direction: column;
-        gap: 10px;
+      .glitch-btn {
+        padding: 12px 25px;
+        font-size: 1rem;
       }
     }
   </style>
 </head>
 <body>
-  <div class="main-container">
+  <div class="scanlines"></div>
+  
+  <div class="container">
     <h1>He came. He saw. He capped the whole scene</h1>
-    <p>CopyBros is FREE on HyperEVM to make NFTs fun again</p>
+    <p class="subtitle">CopyBrowse FREE on HyperGVM to make NFTs far again</p>
     
-    <div class="wallet-checker">
-      <input type="text" id="walletInput" class="wallet-input" placeholder="Enter your wallet address">
-      <button class="check-button" onclick="checkWallet()">CHECK ELIGIBILITY</button>
-      <p id="walletResult"></p>
+    <button class="glitch-btn" id="eligibilityBtn">CHECK ELIGIBILITY</button>
+    
+    <div class="wallet-input-container" id="walletInputContainer">
+      <input type="text" id="walletInput" class="wallet-input" placeholder="ENTER WALLET ADDRESS">
+      <button class="verify-btn" id="verifyBtn">VERIFY</button>
     </div>
     
-    <div class="button-container">
-      <a href="https://twitter.com/copybros" class="action-button twitter-button">CATCH ME</a>
-      <a href="#" class="action-button play-button">Don't play</a>
-    </div>
+    <div id="walletResult"></div>
+    
+    <p class="footer-text">Active+Windows</p>
   </div>
 
   <script>
+    // DOM Elements
+    const eligibilityBtn = document.getElementById('eligibilityBtn');
+    const walletInputContainer = document.getElementById('walletInputContainer');
+    const verifyBtn = document.getElementById('verifyBtn');
+    const walletInput = document.getElementById('walletInput');
+    const walletResult = document.getElementById('walletResult');
+    
     // Wallet eligibility lists
     let GTD = [];
     let FCFS = [];
-
+    
+    // Toggle wallet input visibility
+    function toggleWalletCheck() {
+      walletInputContainer.style.display = walletInputContainer.style.display === 'flex' ? 'none' : 'flex';
+      walletInput.focus();
+    }
+    
     // Fetch CSV data from Google Sheets
     async function fetchList(csvUrl) {
       try {
@@ -172,46 +225,88 @@
         return [];
       }
     }
-
+    
     // Load both eligibility lists
     async function loadLists() {
       try {
         [GTD, FCFS] = await Promise.all([
-          fetchList('https://docs.google.com/spreadsheets/d/1QZ_Uw5npIAnFm5nMdtevvmcrrXUj8e9D0RJtD8NbS7M/export?format=csv'),
-          fetchList('https://docs.google.com/spreadsheets/d/1IeTuABc_tKagmvYilg7ctZoSYL1wXg2Fx24XiEyU6U0/export?format=csv')
+          fetchList('https://docs.google.com/spreadsheets/d/YOUR_GTD_SHEET_ID/export?format=csv'),
+          fetchList('https://docs.google.com/spreadsheets/d/YOUR_FCFS_SHEET_ID/export?format=csv')
         ]);
         console.log('Lists loaded successfully');
       } catch (error) {
         console.error('Error loading lists:', error);
       }
     }
-
+    
     // Check wallet eligibility
     function checkWallet() {
-      const input = document.getElementById('walletInput').value.trim().toLowerCase();
-      const result = document.getElementById('walletResult');
-
+      const input = walletInput.value.trim().toLowerCase();
+      
       if (!input) {
-        result.textContent = 'Please enter a wallet address';
+        walletResult.textContent = 'PLEASE ENTER WALLET ADDRESS';
+        walletResult.style.color = '#ff0000';
+        walletResult.style.textShadow = '0 0 5px #ff0000';
         return;
       }
-
-      result.textContent = 'Checking...';
-
-      // Small delay to allow UI to update
+      
+      walletResult.textContent = 'CHECKING...';
+      walletResult.style.color = '#0ff';
+      walletResult.style.textShadow = '0 0 5px #0ff';
+      
       setTimeout(() => {
         if (GTD.includes(input)) {
-          result.textContent = 'GTD Eligible 🎉';
+          walletResult.innerHTML = 'GTD ELIGIBLE <span style="color:#0f0">(GUARANTEED MINT)</span>';
+          walletResult.style.textShadow = '0 0 5px #0f0';
         } else if (FCFS.includes(input)) {
-          result.textContent = 'FCFS Eligible 👍';
+          walletResult.innerHTML = 'FCFS ELIGIBLE <span style="color:#ff0">(IF REMAINING)</span>';
+          walletResult.style.textShadow = '0 0 5px #ff0';
         } else {
-          result.textContent = 'Not eligible 😢';
+          walletResult.textContent = 'NOT ELIGIBLE - WALLET NOT FOUND';
+          walletResult.style.color = '#f00';
+          walletResult.style.textShadow = '0 0 5px #f00';
         }
-      }, 500);
+      }, 800);
     }
-
-    // Load lists when page loads
-    window.addEventListener('load', loadLists);
+    
+    // Initialize
+    document.addEventListener('DOMContentLoaded', () => {
+      loadLists();
+      
+      // Button event listeners
+      eligibilityBtn.addEventListener('click', toggleWalletCheck);
+      verifyBtn.addEventListener('click', checkWallet);
+      
+      // Enter key to submit
+      walletInput.addEventListener('keypress', (e) => {
+        if (e.key === 'Enter') {
+          checkWallet();
+        }
+      });
+      
+      // Glitch effect on text hover
+      document.querySelectorAll('h1, .subtitle').forEach(el => {
+        el.addEventListener('mouseenter', () => {
+          el.style.animation = 'glitch 0.5s linear infinite';
+        });
+        el.addEventListener('mouseleave', () => {
+          el.style.animation = 'none';
+        });
+      });
+    });
+    
+    // Glitch animation
+    const style = document.createElement('style');
+    style.textContent = `
+      @keyframes glitch {
+        0% { text-shadow: 2px 0 #0ff, -2px 0 #f0f; }
+        25% { text-shadow: -2px 0 #0ff, 2px 0 #f0f; }
+        50% { text-shadow: 2px 0 #f0f, -2px 0 #0ff; }
+        75% { text-shadow: -2px 0 #f0f, 2px 0 #0ff; }
+        100% { text-shadow: 2px 0 #0ff, -2px 0 #f0f; }
+      }
+    `;
+    document.head.appendChild(style);
   </script>
 </body>
 </html>
