@@ -5,8 +5,7 @@
 }
 
 /* Global Styles */
-body,
-html {
+body, html {
   display: block;
   padding: 0;
   margin: 0;
@@ -51,7 +50,7 @@ section {
 }
 
 .coming_content h1 {
-  font-size: 4rem; /* Equivalent to 90px assuming root font size is 16px */
+  font-size: 4rem;
   margin: 0;
   letter-spacing: 2px;
   text-align: center;
@@ -100,14 +99,10 @@ section {
   font-family: 'Comfy Feeling', sans-serif;
   letter-spacing: 2px;
   line-height: 2;
-  font-size: 1rem; /* Equivalent to 16px */
+  font-size: 1rem;
   font-weight: 400;
   text-align: center;
   margin: 0;
-}
-
-.coming_content h3 a {
-  text-decoration: underline;
 }
 
 /* Image Animation */
@@ -115,11 +110,11 @@ section {
   position: absolute;
   left: 50%;
   transform: translate(-50%, -105%);
-  width: 150px; /* Set the width of the image container */
-  height: 150px; /* Set the height of the image container */
+  width: 150px;
+  height: 150px;
   background-size: cover;
   background-position: center;
-  animation: imageCycle 0.5s steps(1) infinite; /* 10fps = 0.1s per frame, 4 frames = 0.4s */
+  animation: imageCycle 0.5s steps(1) infinite;
   z-index: 101;
 }
 
@@ -138,7 +133,6 @@ section {
   gap: 15px;
   margin-top: 25px;
 }
-
 
 /* Twitter Button */
 .twitter-button {
@@ -167,7 +161,7 @@ section {
 }
 
 /* Atlas3 Button */
-.twitter-button {
+.atlas3-button {
   display: inline-flex;
   align-items: center;
   gap: 8px;
@@ -191,49 +185,90 @@ section {
   height: 18px;
   object-fit: contain;
 }
-.eligibility-box {
-  margin-top: 30px;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 12px;
-  font-family: 'Comfy Feeling', sans-serif;
+
+/* Wallet Eligibility Checker */
+.eligibility-container {
+  margin: 40px auto;
+  max-width: 500px;
+  text-align: center;
+  padding: 20px;
+  border-radius: 15px;
+  background: rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(5px);
+}
+
+.eligibility-title {
+  font-size: 1.8rem;
+  margin-bottom: 20px;
   color: white;
 }
 
-.eligibility-box input {
-  padding: 10px 16px;
-  border-radius: 20px;
-  border: 2px solid #fff;
-  width: 260px;
+.wallet-input {
+  padding: 12px 20px;
+  width: 80%;
+  max-width: 400px;
+  border: 2px solid white;
+  border-radius: 30px;
   background: transparent;
   color: white;
-  font-size: 16px;
+  font-size: 1rem;
+  margin-bottom: 15px;
   text-align: center;
 }
 
-.eligibility-box input::placeholder {
-  color: #aaa;
+.wallet-input::placeholder {
+  color: rgba(255, 255, 255, 0.7);
 }
 
-.eligibility-box button {
-  padding: 10px 24px;
-  border-radius: 25px;
-  background-color: #000;
+.check-button {
+  padding: 12px 30px;
+  background: #000;
   color: white;
   border: none;
+  border-radius: 30px;
+  font-size: 1rem;
   cursor: pointer;
-  transition: 0.3s;
-  font-size: 16px;
+  transition: all 0.3s ease;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+  font-family: 'Comfy Feeling', sans-serif;
 }
 
-.eligibility-box button:hover {
-  background-color: #222;
+.check-button:hover {
+  background: #333;
+  transform: translateY(-2px);
 }
 
 #walletResult {
-  font-size: 16px;
+  margin-top: 20px;
+  font-size: 1.2rem;
   font-weight: bold;
+  min-height: 27px;
+  color: white;
+}
+
+/* Social button */
+.social-button {
+  position: fixed;
+  top: 20px;
+  right: 20px;
+  background: rgb(2, 0, 15);
+  border: 2px solid #ecdede;
+  border-radius: 50%;
+  width: 50px;
+  height: 50px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 24px;
+  cursor: pointer;
+  z-index: 1000;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+  transition: all 0.3s ease;
+}
+
+.social-button:hover {
+  transform: scale(1.1);
+  background: #f0f0f0;
 }
 
 /* Mobile Responsiveness */
@@ -251,5 +286,22 @@ section {
   .twitter-icon, .atlas3-logo {
     width: 16px;
     height: 16px;
+  }
+  
+  .coming_content h1 {
+    font-size: 2.5rem;
+  }
+  
+  .eligibility-container {
+    width: 90%;
+    padding: 15px;
+  }
+  
+  .wallet-input {
+    width: 90%;
+  }
+  
+  .eligibility-title {
+    font-size: 1.5rem;
   }
 }
