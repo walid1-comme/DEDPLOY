@@ -66,41 +66,47 @@
       object-fit: contain;
     }
 
-    /* Wallet Checker Button - NEW */
+    /* Wallet Check Button - NEW */
     .wallet-check-button {
       display: inline-flex;
       align-items: center;
-      gap: 8px;
-      padding: 10px 20px;
+      justify-content: center;
+      padding: 12px 24px;
       background-color: #000000;
-      border-radius: 25px;
       color: white;
-      text-decoration: none;
+      border: none;
+      border-radius: 30px;
       font-family: 'Comfy Feeling', sans-serif;
+      cursor: pointer;
       transition: all 0.3s ease;
       box-shadow: 0 2px 8px rgba(0,0,0,0.15);
-      cursor: pointer;
-      border: none;
+    }
+
+    .wallet-check-button:hover {
+      background-color: #333333;
+      transform: translateY(-2px);
     }
 
     .wallet-check-container {
       display: none;
       margin: 20px auto;
-      max-width: 300px;
+      max-width: 400px;
       text-align: center;
     }
 
     .wallet-check-container input {
-      padding: 10px;
+      padding: 12px;
       width: 80%;
-      border-radius: 20px;
-      border: 1px solid #ccc;
+      border: 2px solid #000;
+      border-radius: 30px;
       margin-bottom: 10px;
+      text-align: center;
     }
 
     #walletResult {
+      margin-top: 15px;
       font-weight: bold;
-      margin-top: 10px;
+      font-size: 1.1rem;
     }
 
     /* Mobile Responsiveness */
@@ -160,7 +166,7 @@
           </span>
         </div>
       </div>
-      <h3>CapyBros is FREE on HyperEVM to make NFTs fun again</h3>
+      <h3>CapyBros is FREE on APE to make NFTs fun again</h3>
       
       <!-- Button Group -->
       <div class="button-group">
@@ -179,9 +185,7 @@
         </a>
 
         <!-- NEW Wallet Check Button -->
-        <button class="wallet-check-button" onclick="toggleWalletCheck()">
-          <span>CHECK ELIGIBILITY</span>
-        </button>
+        <button class="wallet-check-button" onclick="toggleWalletCheck()">CHECK ELIGIBILITY</button>
       </div>
 
       <!-- NEW Wallet Check Container -->
