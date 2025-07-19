@@ -99,4 +99,14 @@ function checkWallet() {
   }, 800);
 }
 }
+/* Bubble Canvas Styles */
+#bubbleCanvas {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: -1; /* Keeps bubbles behind your content */
+  pointer-events: none; /* Allows clicks to pass through */
+}
 loop();
