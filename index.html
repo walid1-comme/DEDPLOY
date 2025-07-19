@@ -5,6 +5,156 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link rel="stylesheet" href="css/styles.css">
   <title>I'm your CapyBros</title>
+  <style>
+    /* Button Group Container */
+    .button-group {
+      display: flex;
+      justify-content: center;
+      gap: 15px;
+      margin-top: 25px;
+    }
+
+    /* Twitter Button */
+    .twitter-button {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      padding: 12px 24px;
+      background-color: #000000;
+      border-radius: 30px;
+      color: white;
+      text-decoration: none;
+      font-family: 'Comfy Feeling', sans-serif;
+      transition: all 0.3s ease;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+    }
+
+    .twitter-button:hover {
+      background-color: #333333;
+      transform: translateY(-2px);
+    }
+
+    .twitter-icon {
+      width: 20px;
+      height: 20px;
+      fill: currentColor;
+    }
+
+    /* Atlas3 Button */
+    .atlas3-button {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 10px 20px;
+      background-color: #ffffff;
+      border-radius: 25px;
+      color: #000000;
+      text-decoration: none;
+      font-family: 'Comfy Feeling', sans-serif;
+      transition: all 0.3s ease;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    }
+
+    .atlas3-button:hover {
+      background-color: #f0f0f0;
+      transform: translateY(-2px);
+    }
+
+    .atlas3-logo {
+      width: 18px;
+      height: 18px;
+      object-fit: contain;
+    }
+
+    /* Wallet Check Button */
+    .wallet-check-button {
+      display: inline-flex;
+      align-items: center;
+      padding: 12px 24px;
+      background-color: #000000;
+      color: white;
+      border: none;
+      border-radius: 30px;
+      font-family: 'Comfy Feeling', sans-serif;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+    }
+
+    .wallet-check-button:hover {
+      background-color: #333333;
+      transform: translateY(-2px);
+    }
+
+    .wallet-check-container {
+      display: none;
+      margin: 20px auto;
+      max-width: 400px;
+      text-align: center;
+    }
+
+    .wallet-check-container input {
+      padding: 12px;
+      width: 80%;
+      border: 2px solid #000;
+      border-radius: 30px;
+      margin-bottom: 10px;
+      text-align: center;
+    }
+
+    .wallet-check-container button {
+      padding: 12px 24px;
+      background: #000;
+      color: white;
+      border: none;
+      border-radius: 30px;
+      cursor: pointer;
+      font-family: 'Comfy Feeling', sans-serif;
+    }
+
+    #walletResult {
+      margin-top: 15px;
+      font-weight: bold;
+      font-size: 1.1rem;
+    }
+
+    /* Mobile Responsiveness */
+    @media (max-width: 768px) {
+      .button-group {
+        flex-direction: column;
+        align-items: center;
+        gap: 12px;
+      }
+      .twitter-button, .atlas3-button, .wallet-check-button {
+        padding: 10px 20px;
+      }
+    }
+    
+    /* Social button styling */
+    .social-button {
+        position: fixed;
+        top: 20px;
+        right: 20px;
+        background: rgb(2, 0, 15);
+        border: 2px solid #ecdede;
+        border-radius: 50%;
+        width: 50px;
+        height: 50px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 24px;
+        cursor: pointer;
+        z-index: 1000;
+        box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+        transition: all 0.3s ease;
+    }
+    
+    .social-button:hover {
+        transform: scale(1.1);
+        background: #f0f0f0;
+    }
+  </style>
 </head>
 <body>
   <section>
@@ -27,7 +177,9 @@
       </div>
       <h3>CapyBros is FREE on APE to make NFTs fun again</h3>
       
+      <!-- Button Group -->
       <div class="button-group">
+        <!-- Twitter Button -->
         <a href="https://twitter.com/capybros1" target="_blank" class="twitter-button">
           <svg viewBox="0 0 24 24" class="twitter-icon">
             <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/>
@@ -35,22 +187,26 @@
           <span>CATCH ME</span>
         </a>
 
+        <!-- Atlas3 Button -->
         <a href="games/index.html" class="atlas3-button">
           <img src="images/atlas3-logo.png" alt="Atlas3 Logo" class="atlas3-logo">
           <span>Don't play</span>
         </a>
 
-        <button class="wallet-check-button" id="checkWalletBtn">CHECK ELIGIBILITY</button>
+        <!-- NEW Wallet Check Button -->
+        <button class="wallet-check-button" onclick="toggleWalletCheck()">CHECK ELIGIBILITY</button>
       </div>
 
-      <div class="wallet-check-container" id="walletChecker">
-        <input type="text" id="walletInput" placeholder="Enter 0x wallet address">
-        <button class="verify-button" id="verifyWalletBtn">VERIFY</button>
+      <!-- NEW Wallet Check Container -->
+      <div class="wallet-check-container" id="walletCheckContainer">
+        <input type="text" id="walletInput" placeholder="Enter wallet address">
+        <button onclick="checkWallet()">VERIFY</button>
         <p id="walletResult"></p>
       </div>
     </div>
   </section>
 
+  <!-- Social button -->
   <div class="social-button" onclick="window.open('https://linktr.ee/capybros1', '_blank')">🔗</div>
 
   <script src="js/script.js"></script>
