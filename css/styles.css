@@ -1,22 +1,28 @@
-/* Font Import */
+/* =======================
+   Fonts
+========================== */
 @font-face {
   font-family: 'Comfy Feeling';
   src: url('../fonts/Comfy%20Feeling.otf') format('opentype');
 }
 
-/* Global Styles */
+/* =======================
+   Global Styles
+========================== */
 body,
 html {
   display: block;
   padding: 0;
   margin: 0;
   width: 100%;
-  position: relative;
   height: 100%;
+  position: relative;
   font-family: 'Comfy Feeling', 'Arial', sans-serif;
 }
 
-/* Section and Background */
+/* =======================
+   Background
+========================== */
 section {
   position: relative;
   width: 100%;
@@ -24,7 +30,9 @@ section {
   background: radial-gradient(circle, #072723, #ffffff);
 }
 
-/* Canvas */
+/* =======================
+   Canvas
+========================== */
 #beerCanvas {
   position: absolute;
   top: 0;
@@ -34,7 +42,9 @@ section {
   z-index: 100;
 }
 
-/* Coming Content */
+/* =======================
+   Coming Content Section
+========================== */
 .coming_content {
   position: absolute;
   top: 50%;
@@ -56,13 +66,13 @@ section {
 }
 
 .coming_content h3 {
-  font-family: 'Comfy Feeling', sans-serif;
   letter-spacing: 2px;
   line-height: 2;
   font-size: 1rem;
   font-weight: 400;
   text-align: center;
   margin: 0;
+  font-family: 'Comfy Feeling', sans-serif;
 }
 
 .coming_content h3 a {
@@ -70,7 +80,9 @@ section {
   color: white;
 }
 
-/* Separator */
+/* =======================
+   Separator
+========================== */
 .separator_container {
   width: 100%;
   display: block;
@@ -107,7 +119,9 @@ section {
   float: right;
 }
 
-/* Image Animation */
+/* =======================
+   Image Animation
+========================== */
 #imageAnimation {
   position: absolute;
   left: 50%;
@@ -125,4 +139,160 @@ section {
   25% { background-image: url('../images/bera2.png'); }
   50% { background-image: url('../images/bera3.png'); }
   75% { background-image: url('../images/bera4.png'); }
-  100% { background-image: url('../images/bera1.p
+  100% { background-image: url('../images/bera1.png'); }
+}
+
+/* =======================
+   Button Groups
+========================== */
+.button-group {
+  display: flex;
+  justify-content: center;
+  gap: 15px;
+  margin-top: 25px;
+  flex-wrap: wrap;
+}
+
+/* Generic Button Base Style */
+.button-base {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  padding: 12px 24px;
+  border-radius: 30px;
+  font-family: 'Comfy Feeling', sans-serif;
+  transition: all 0.3s ease;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+  text-decoration: none;
+  cursor: pointer;
+}
+
+/* Twitter Button */
+.twitter-button {
+  background-color: #000000;
+  color: white;
+}
+
+.twitter-button:hover {
+  background-color: #333333;
+  transform: translateY(-2px);
+}
+
+.twitter-icon {
+  width: 20px;
+  height: 20px;
+  fill: currentColor;
+}
+
+/* Atlas3 Button */
+.atlas3-button {
+  background-color: #ffffff;
+  color: #000000;
+  gap: 8px;
+  padding: 10px 20px;
+}
+
+.atlas3-button:hover {
+  background-color: #f0f0f0;
+  transform: translateY(-2px);
+}
+
+.atlas3-logo {
+  width: 18px;
+  height: 18px;
+  object-fit: contain;
+}
+
+/* =======================
+   Wallet Checker Section
+========================== */
+.wallet-check-button {
+  background-color: #000000;
+  color: white;
+  border: none;
+  border-radius: 30px;
+  font-family: 'Comfy Feeling', sans-serif;
+  padding: 12px 24px;
+  transition: all 0.3s ease;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+}
+
+.wallet-check-button:hover {
+  background-color: #333333;
+  transform: translateY(-2px);
+}
+
+.wallet-check-container {
+  display: none;
+  margin: 20px auto;
+  max-width: 400px;
+  text-align: center;
+}
+
+.wallet-input {
+  padding: 12px;
+  width: 80%;
+  border: 2px solid #000;
+  border-radius: 30px;
+  margin-bottom: 10px;
+  text-align: center;
+  font-family: 'Comfy Feeling', sans-serif;
+}
+
+#walletResult {
+  margin-top: 15px;
+  font-weight: bold;
+  font-size: 1.1rem;
+}
+
+/* =======================
+   Social Button
+========================== */
+.social-button {
+  position: fixed;
+  top: 20px;
+  right: 20px;
+  background: rgb(2, 0, 15);
+  border: 2px solid #ecdede;
+  border-radius: 50%;
+  width: 50px;
+  height: 50px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 24px;
+  cursor: pointer;
+  z-index: 1000;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+  transition: all 0.3s ease;
+}
+
+.social-button:hover {
+  transform: scale(1.1);
+  background: #f0f0f0;
+}
+
+/* =======================
+   Mobile Styles
+========================== */
+@media (max-width: 768px) {
+  .button-group {
+    flex-direction: column;
+    align-items: center;
+    gap: 12px;
+  }
+
+  .wallet-input {
+    width: 90%;
+  }
+
+  .twitter-icon,
+  .atlas3-logo {
+    width: 16px;
+    height: 16px;
+  }
+
+  .wallet-check-button {
+    width: 90%;
+  }
+}
