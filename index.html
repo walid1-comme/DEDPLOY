@@ -33,5 +33,36 @@
       <!-- Button Group -->
       <div class="button-group">
         <!-- Twitter Button -->
-        <a href="https://twitter.com/capybros1" target="_blank" class="twitter-button button-base">
-          <svg viewBox=
+        <a href="https://twitter.com/capybros1" target="_blank" class="twitter-button">
+          <svg viewBox="0 0 24 24" class="twitter-icon">
+            <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/>
+          </svg>
+          <span>CATCH ME</span>
+        </a>
+
+        <!-- Atlas3 Button -->
+        <a href="games/index.html" class="atlas3-button">
+          <img src="images/atlas3-logo.png" alt="Atlas3 Logo" class="atlas3-logo" />
+          <span>Don't play</span>
+        </a>
+
+        <!-- Eligibility Button -->
+        <button class="wallet-check-button" onclick="toggleWalletCheck()">CHECK ELIGIBILITY</button>
+      </div>
+
+      <!-- Wallet Checker Section -->
+      <div class="wallet-check-container" id="walletCheckContainer">
+        <input type="text" id="walletInput" class="wallet-input" placeholder="Enter wallet address" />
+        <button class="wallet-check-button" onclick="checkWallet()">VERIFY</button>
+        <p id="walletResult"></p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Social Button -->
+  <div class="social-button" onclick="window.open('https://linktr.ee/capybros1', '_blank')">🔗</div>
+
+  <!-- JavaScript -->
+  <script src="js/script.js"></script>
+</body>
+</html>
