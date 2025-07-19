@@ -1,170 +1,133 @@
-// ===== CANVAS INITIALIZATION =====
+// Bubble Animation
 const canvas = document.getElementById('beerCanvas');
 const ctx = canvas.getContext('2d');
+let particles = [];
+const particleCount = 150;
 
-// Set canvas to full window size
-function initCanvas() {
-  canvas.width = window.innerWidth;
-  canvas.height = window.innerHeight;
-}
-initCanvas();
+// Set canvas size
+canvas.width = window.innerWidth;
+canvas.height = window.innerHeight;
 
-// ===== BUBBLE ANIMATION =====
-const particles = [];
-const particleCount = 280;
-
-class Bubble {
+// Create particles
+class Particle {
   constructor() {
     this.x = Math.random() * canvas.width;
-    this.y = canvas.height + Math.random() * 300;
-    this.speed = 1 + Math.random();
-    this.radius = Math.random() * 3;
-    this.opacity = (Math.random() * 100) / 1000;
+    this.y = canvas.height + Math.random() * 100;
+    this.size = Math.random() * 4 + 1;
+    this.speed = 0.5 + Math.random() * 2;
+    this.opacity = Math.random() * 0.5;
   }
-
+  
   update() {
     this.y -= this.speed;
-    if (this.y <= -10) {
-      this.x = Math.random() * canvas.width;
+    if (this.y < -10) {
       this.y = canvas.height + 10;
+      this.x = Math.random() * canvas.width;
     }
   }
-
+  
   draw() {
-    ctx.beginPath();
-    ctx.arc(this.x, this.y, this.radius, 0, Math.PI * 2);
     ctx.fillStyle = `rgba(255, 255, 255, ${this.opacity})`;
+    ctx.beginPath();
+    ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
     ctx.fill();
   }
 }
 
-// Initialize bubbles
-function initBubbles() {
+// Initialize particles
+function initParticles() {
   for (let i = 0; i < particleCount; i++) {
-    particles.push(new Bubble());
+    particles.push(new Particle());
   }
 }
-initBubbles();
 
 // Animation loop
 function animate() {
   ctx.clearRect(0, 0, canvas.width, canvas.height);
   ctx.globalCompositeOperation = 'lighter';
-
-  particles.forEach(bubble => {
-    bubble.update();
-    bubble.draw();
+  
+  particles.forEach(particle => {
+    particle.update();
+    particle.draw();
   });
-
+  
   requestAnimationFrame(animate);
 }
-animate();
 
-// ===== WALLET CHECKER =====
+// Wallet Checker
 let GTD = [];
 let FCFS = [];
 
-// Toggle wallet check visibility
-function toggleWalletCheck() {
-  const container = document.getElementById('walletCheckContainer');
-  container.style.display = container.style.display === 'block' ? 'none' : 'block';
-  if (container.style.display === 'block') {
-    document.getElementById('walletInput').focus();
-  }
-}
-
-// Fetch data from Google Sheets
-async function fetchSheetData(sheetID) {
-  try {
-    // Use the published CSV export URL
-    const response = await fetch(
-      `https://docs.google.com/spreadsheets/d/${sheetID}/export?format=csv`
-    );
-    const text = await response.text();
-    return text.split('\n')
-      .map(line => line.trim().toLowerCase())
-      .filter(line => line.startsWith('0x') && line.length === 42); // Basic ETH address validation
-  } catch (error) {
-    console.error('Error fetching sheet:', error);
-    return [];
-  }
-}
-
-// Load eligibility lists
-async function loadEligibilityLists() {
-  try {
-    [GTD, FCFS] = await Promise.all([
-      fetchSheetData('1QZ_Uw5npIAnFm5nMdtevvmcrrXUj8e9D0RJtD8NbS7M'), // GTD Sheet
-      fetchSheetData('1IeTuABc_tKagmvYilg7ctZoSYL1wXg2Fx24XiEyU6U0')  // FCFS Sheet
-    ]);
-    console.log(`Loaded ${GTD.length} GTD and ${FCFS.length} FCFS wallets`);
-  } catch (error) {
-    console.error('Error loading lists:', error);
-  }
-}
-
-// Check wallet eligibility
-async function checkWallet() {
-  const wallet = document.getElementById('walletInput').value.trim().toLowerCase();
-  const result = document.getElementById('walletResult');
-  
-  if (!wallet) {
-    showResult('Please enter a wallet address', 'error');
-    return;
-  }
-
-  // Basic ETH address validation
-  if (!wallet.startsWith('0x') || wallet.length !== 42) {
-    showResult('Invalid wallet format', 'error');
-    return;
-  }
-
-  showResult('Checking...', 'checking');
-
-  try {
-    // First check GTD list
-    if (GTD.includes(wallet)) {
-      showResult('✅ GTD Eligible - Guaranteed Spot!', 'gtd-eligible');
-    } 
-    // Then check FCFS list
-    else if (FCFS.includes(wallet)) {
-      showResult('🟡 FCFS Eligible - First Come First Serve', 'fcfs-eligible');
-    } 
-    // Not found in either list
-    else {
-      showResult('❌ Not eligible - Wallet not found', 'not-eligible');
-    }
-  } catch (error) {
-    showResult('⚠️ System error - please try again', 'error');
-    console.error('Wallet check error:', error);
-  }
-}
-
-// Display result with styling
-function showResult(message, className) {
-  const result = document.getElementById('walletResult');
-  result.innerHTML = message;
-  result.className = className;
-}
-
-// ===== WINDOW RESIZE HANDLER =====
-window.addEventListener('resize', () => {
-  initCanvas();
-});
-
-// ===== INITIALIZE EVERYTHING =====
 document.addEventListener('DOMContentLoaded', () => {
-  // Start loading lists immediately
-  loadEligibilityLists();
+  initParticles();
+  animate();
+  loadLists();
   
-  // Set up wallet check button
-  document.querySelector('.wallet-check-button')?.addEventListener('click', toggleWalletCheck);
+  // Wallet Check Elements
+  const checkBtn = document.getElementById('checkWalletBtn');
+  const verifyBtn = document.getElementById('verifyWalletBtn');
+  const walletInput = document.getElementById('walletInput');
+  const resultText = document.getElementById('walletResult');
+  const walletChecker = document.getElementById('walletChecker');
   
-  // Set up verify button
-  document.querySelector('.verify-button')?.addEventListener('click', checkWallet);
+  // Toggle wallet checker
+  checkBtn.addEventListener('click', () => {
+    walletChecker.style.display = walletChecker.style.display === 'none' ? 'block' : 'none';
+    if (walletChecker.style.display === 'block') {
+      walletInput.focus();
+    }
+  });
   
-  // Handle Enter key in wallet input
-  document.getElementById('walletInput')?.addEventListener('keypress', (e) => {
+  // Verify wallet
+  verifyBtn.addEventListener('click', checkWallet);
+  walletInput.addEventListener('keypress', (e) => {
     if (e.key === 'Enter') checkWallet();
   });
+  
+  function checkWallet() {
+    const wallet = walletInput.value.trim().toLowerCase();
+    
+    if (!wallet.startsWith('0x') || wallet.length !== 42) {
+      showResult("⚠️ Invalid wallet address", "not-eligible");
+      return;
+    }
+    
+    showResult("Checking...", "");
+    
+    if (GTD.includes(wallet)) {
+      showResult("✅ GTD Eligible!", "gtd-eligible");
+    } else if (FCFS.includes(wallet)) {
+      showResult("🟡 FCFS Eligible", "fcfs-eligible");
+    } else {
+      showResult("❌ Not eligible", "not-eligible");
+    }
+  }
+  
+  function showResult(message, className) {
+    resultText.textContent = message;
+    resultText.className = className;
+  }
+});
+
+// Load Google Sheets data
+async function loadLists() {
+  try {
+    const [gtdRes, fcfsRes] = await Promise.all([
+      fetch('https://docs.google.com/spreadsheets/d/1QZ_Uw5npIAnFm5nMdtevvmcrrXUj8e9D0RJtD8NbS7M/export?format=csv'),
+      fetch('https://docs.google.com/spreadsheets/d/1IeTuABc_tKagmvYilg7ctZoSYL1wXg2Fx24XiEyU6U0/export?format=csv')
+    ]);
+    
+    GTD = (await gtdRes.text()).split('\n').map(w => w.trim().toLowerCase());
+    FCFS = (await fcfsRes.text()).split('\n').map(w => w.trim().toLowerCase());
+    
+    console.log(`Loaded ${GTD.length} GTD and ${FCFS.length} FCFS wallets`);
+  } catch (error) {
+    console.error("Error loading lists:", error);
+  }
+}
+
+// Handle window resize
+window.addEventListener('resize', () => {
+  canvas.width = window.innerWidth;
+  canvas.height = window.innerHeight;
 });
