@@ -1,108 +1,88 @@
-/* Font Import */
-@font-face {
-  font-family: 'Comfy Feeling';
-  src: url('../fonts/Comfy%20Feeling.otf') format('opentype');
+// Bubble Animation (unchanged)
+var canvas = document.getElementById('beerCanvas');
+var ctx = canvas.getContext('2d');
+var particles = [];
+var particleCount = 280;
+
+for (var i = 0; i < particleCount; i++) {
+  particles.push(new particle());
 }
 
-/* Global Styles */
-body, html {
-  margin: 0;
-  padding: 0;
-  width: 100%;
-  height: 100%;
-  font-family: 'Comfy Feeling', Arial, sans-serif;
-  background: radial-gradient(circle, #4964e9, #ffffff);
+function particle() {
+  this.x = Math.random() * canvas.width;
+  this.y = canvas.height + Math.random() * 300;
+  this.speed = 1 + Math.random();
+  this.radius = Math.random() * 3;
+  this.opacity = (Math.random() * 100) / 1000;
 }
 
-/* Canvas */
-#beerCanvas {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  z-index: -1;
+function loop() {
+  requestAnimationFrame(loop);
+  draw();
 }
 
-/* Content */
-.coming_content {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  width: 70%;
-  text-align: center;
-  color: white;
-  z-index: 10;
+function draw() {
+  ctx.clearRect(0, 0, canvas.width, canvas.height);
+  ctx.globalCompositeOperation = 'lighter';
+  for (var i = 0; i < particles.length; i++) {
+    var p = particles[i];
+    ctx.beginPath();
+    ctx.fillStyle = 'rgba(255,255,255,' + p.opacity + ')';
+    ctx.arc(p.x, p.y, p.radius, 0, Math.PI * 2, false);
+    ctx.fill();
+    p.y -= p.speed;
+    if (p.y <= -10)
+      particles[i] = new particle();
+  }
+}
+loop();
+
+// Wallet Checker Functions
+let GTD = [];
+let FCFS = [];
+
+function toggleWalletCheck() {
+  const container = document.getElementById('walletCheckContainer');
+  container.style.display = container.style.display === 'none' ? 'block' : 'none';
 }
 
-/* Wallet Checker */
-.wallet-check-button {
-  display: inline-flex;
-  align-items: center;
-  padding: 12px 24px;
-  background: #000;
-  color: white;
-  border: none;
-  border-radius: 30px;
-  font-family: 'Comfy Feeling', sans-serif;
-  cursor: pointer;
-  transition: all 0.3s ease;
-  box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+async function checkWallet() {
+  const wallet = document.getElementById('walletInput').value.trim().toLowerCase();
+  const result = document.getElementById('walletResult');
+  
+  if (!wallet) {
+    result.textContent = "Please enter a wallet";
+    return;
+  }
+  
+  result.textContent = "Checking...";
+  
+  try {
+    if (!GTD.length) await loadLists();
+    
+    if (GTD.includes(wallet)) {
+      result.textContent = "GTD Eligible";
+    } else if (FCFS.includes(wallet)) {
+      result.textContent = "FCFS Eligible";
+    } else {
+      result.textContent = "Not eligible";
+    }
+  } catch (error) {
+    result.textContent = "Error checking";
+    console.error(error);
+  }
 }
 
-.wallet-check-button:hover {
-  background: #333;
-  transform: translateY(-2px);
+async function loadLists() {
+  try {
+    const [gtdRes, fcfsRes] = await Promise.all([
+      fetch('https://docs.google.com/spreadsheets/d/1QZ_Uw5npIAnFm5nMdtevvmcrrXUj8e9D0RJtD8NbS7M/export?format=csv'),
+      fetch('https://docs.google.com/spreadsheets/d/1IeTuABc_tKagmvYilg7ctZoSYL1wXg2Fx24XiEyU6U0/export?format=csv')
+    ]);
+    
+    GTD = (await gtdRes.text()).split('\n').map(w => w.trim().toLowerCase());
+    FCFS = (await fcfsRes.text()).split('\n').map(w => w.trim().toLowerCase());
+  } catch (error) {
+    console.error("Failed to load lists:", error);
+  }
 }
-
-.wallet-check-container {
-  display: none;
-  margin: 20px auto;
-  max-width: 400px;
-  text-align: center;
-}
-
-.wallet-check-container input {
-  padding: 12px;
-  width: 80%;
-  border: 2px solid #000;
-  border-radius: 30px;
-  margin-bottom: 10px;
-  text-align: center;
-}
-
-.verify-button {
-  padding: 12px 24px;
-  background: #000;
-  color: white;
-  border: none;
-  border-radius: 30px;
-  cursor: pointer;
-  transition: all 0.3s ease;
-}
-
-.verify-button:hover {
-  background: #333;
-}
-
-#walletResult {
-  margin-top: 15px;
-  font-weight: bold;
-  min-height: 20px;
-}
-
-/* Results */
-.gtd-eligible {
-  color: #00ff00;
-}
-
-.fcfs-eligible {
-  color: #ffff00;
-}
-
-.not-eligible {
-  color: #ff0000;
-}
-
-/* Keep your existing other styles below... */
