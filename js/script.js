@@ -1,169 +1,154 @@
-var canvas = document.getElementById('beerCanvas');
-var ctx = canvas.getContext('2d');
-var particles = [];
-var particleCount = 280;
+// ===== CANVAS INITIALIZATION =====
+const canvas = document.getElementById('beerCanvas');
+const ctx = canvas.getContext('2d');
 
-for (var i = 0; i < particleCount; i++) {
-  particles.push(new particle());
+// Set canvas to full window size
+function initCanvas() {
+  canvas.width = window.innerWidth;
+  canvas.height = window.innerHeight;
 }
+initCanvas();
 
-function particle() {
-  this.x = Math.random() * canvas.width;
-  this.y = canvas.height + Math.random() * 300;
-  this.speed = 1 + Math.random();
-  this.radius = Math.random() * 3;
-  this.opacity = (Math.random() * 100) / 1000;
-}
+// ===== BUBBLE ANIMATION =====
+const particles = [];
+const particleCount = 280;
 
-function loop() {
-  requestAnimationFrame(loop);
-  draw();
-}
-
-function draw() {
-  ctx.clearRect(0, 0, canvas.width, canvas.height);
-  ctx.globalCompositeOperation = 'lighter';
-  for (var i = 0; i < particles.length; i++) {
-    var p = particles[i];
-    ctx.beginPath();
-    ctx.fillStyle = 'rgba(255,255,255,' + p.opacity + ')';
-    ctx.arc(p.x, p.y, p.radius, 0, Math.PI * 2, false);
-    ctx.fill();
-    p.y -= p.speed;
-    if (p.y <= -10)
-      particles[i] = new particle();
+class Bubble {
+  constructor() {
+    this.x = Math.random() * canvas.width;
+    this.y = canvas.height + Math.random() * 300;
+    this.speed = 1 + Math.random();
+    this.radius = Math.random() * 3;
+    this.opacity = (Math.random() * 100) / 1000;
   }
-  // Your existing particle code remains exactly the same
-var canvas = document.getElementById('beerCanvas');
-var ctx = canvas.getContext('2d');
-var particles = [];
-var particleCount = 280;
 
-for (var i = 0; i < particleCount; i++) {
-  particles.push(new particle());
-}
+  update() {
+    this.y -= this.speed;
+    if (this.y <= -10) {
+      this.x = Math.random() * canvas.width;
+      this.y = canvas.height + 10;
+    }
+  }
 
-function particle() {
-  this.x = Math.random() * canvas.width;
-  this.y = canvas.height + Math.random() * 300;
-  this.speed = 1 + Math.random();
-  this.radius = Math.random() * 3;
-  this.opacity = (Math.random() * 100) / 1000;
-}
-
-function loop() {
-  requestAnimationFrame(loop);
-  draw();
-}
-
-function draw() {
-  ctx.clearRect(0, 0, canvas.width, canvas.height);
-  ctx.globalCompositeOperation = 'lighter';
-  for (var i = 0; i < particles.length; i++) {
-    var p = particles[i];
+  draw() {
     ctx.beginPath();
-    ctx.fillStyle = 'rgba(255,255,255,' + p.opacity + ')';
-    ctx.arc(p.x, p.y, p.radius, 0, Math.PI * 2, false);
+    ctx.arc(this.x, this.y, this.radius, 0, Math.PI * 2);
+    ctx.fillStyle = `rgba(255, 255, 255, ${this.opacity})`;
     ctx.fill();
-    p.y -= p.speed;
-    if (p.y <= -10)
-      particles[i] = new particle();
   }
 }
-loop();
 
-// NEW Wallet Check Functions (added at the bottom)
+// Initialize bubbles
+function initBubbles() {
+  for (let i = 0; i < particleCount; i++) {
+    particles.push(new Bubble());
+  }
+}
+initBubbles();
+
+// Animation loop
+function animate() {
+  ctx.clearRect(0, 0, canvas.width, canvas.height);
+  ctx.globalCompositeOperation = 'lighter';
+
+  particles.forEach(bubble => {
+    bubble.update();
+    bubble.draw();
+  });
+
+  requestAnimationFrame(animate);
+}
+animate();
+
+// ===== WALLET CHECKER =====
+let GTD = [];
+let FCFS = [];
+
+// Toggle wallet check visibility
 function toggleWalletCheck() {
   const container = document.getElementById('walletCheckContainer');
   container.style.display = container.style.display === 'block' ? 'none' : 'block';
 }
 
-function checkWallet() {
+// Fetch data from Google Sheets
+async function fetchSheetData(sheetID) {
+  try {
+    const response = await fetch(
+      `https://docs.google.com/spreadsheets/d/${sheetID}/export?format=csv`
+    );
+    const text = await response.text();
+    return text.split('\n')
+      .map(line => line.trim().toLowerCase())
+      .filter(line => line);
+  } catch (error) {
+    console.error('Error fetching sheet:', error);
+    return [];
+  }
+}
+
+// Load eligibility lists
+async function loadEligibilityLists() {
+  try {
+    [GTD, FCFS] = await Promise.all([
+      fetchSheetData('YOUR_GTD_SHEET_ID'), // Replace with actual ID
+      fetchSheetData('YOUR_FCFS_SHEET_ID') // Replace with actual ID
+    ]);
+    console.log('Eligibility lists loaded');
+  } catch (error) {
+    console.error('Error loading lists:', error);
+  }
+}
+
+// Check wallet eligibility
+async function checkWallet() {
   const wallet = document.getElementById('walletInput').value.trim().toLowerCase();
   const result = document.getElementById('walletResult');
   
   if (!wallet) {
-    result.textContent = "Please enter a wallet";
+    showResult('Please enter a wallet address', 'error');
     return;
   }
-  
-  result.textContent = "Checking...";
-  
-  // Replace this with your actual check:
-  setTimeout(() => {
-    if (Math.random() > 0.5) {
-      result.textContent = "GTD Eligible";
+
+  showResult('Checking...', 'checking');
+
+  try {
+    if (GTD.includes(wallet)) {
+      showResult('GTD Eligible!', 'gtd-eligible');
+    } else if (FCFS.includes(wallet)) {
+      showResult('FCFS Eligible', 'fcfs-eligible');
     } else {
-      result.textContent = "Not eligible";
+      showResult('Not eligible', 'not-eligible');
     }
-  }, 800);
-}
-}
-/* Bubble Canvas Styles */
-#bubbleCanvas {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  z-index: -1; /* Keeps bubbles behind your content */
-  pointer-events: none; /* Allows clicks to pass through */
-}
-// Bubble Animation (Add this at the end of script.js)
-document.addEventListener('DOMContentLoaded', function() {
-  const canvas = document.getElementById('bubbleCanvas');
-  const ctx = canvas.getContext('2d');
-  
-  // Set canvas size
-  canvas.width = window.innerWidth;
-  canvas.height = window.innerHeight;
-  
-  // Bubble settings
-  const bubbles = [];
-  const bubbleCount = 150; // Adjust number of bubbles
-  
-  // Create bubbles
-  for (let i = 0; i < bubbleCount; i++) {
-    bubbles.push({
-      x: Math.random() * canvas.width,
-      y: canvas.height + Math.random() * 100,
-      radius: Math.random() * 3 + 1, // Size range (1px to 4px)
-      speed: 0.5 + Math.random() * 1.5, // Speed range (0.5 to 2)
-      opacity: 0.1 + Math.random() * 0.4 // Transparency (0.1 to 0.5)
-    });
+  } catch (error) {
+    showResult('System error - try again', 'error');
+    console.error(error);
   }
-  
-  // Animation loop
-  function animateBubbles() {
-    ctx.clearRect(0, 0, canvas.width, canvas.height);
-    
-    bubbles.forEach(bubble => {
-      // Move bubble upward
-      bubble.y -= bubble.speed;
-      
-      // Reset bubble to bottom if it goes off screen
-      if (bubble.y < -10) {
-        bubble.y = canvas.height + 10;
-        bubble.x = Math.random() * canvas.width;
-      }
-      
-      // Draw bubble
-      ctx.beginPath();
-      ctx.arc(bubble.x, bubble.y, bubble.radius, 0, Math.PI * 2);
-      ctx.fillStyle = `rgba(255, 255, 255, ${bubble.opacity})`;
-      ctx.fill();
-    });
-    
-    requestAnimationFrame(animateBubbles);
-  }
-  
-  // Handle window resize
-  window.addEventListener('resize', function() {
-    canvas.width = window.innerWidth;
-    canvas.height = window.innerHeight;
-  });
-  
-  // Start animation
-  animateBubbles();
+}
+
+// Display result with styling
+function showResult(message, className) {
+  const result = document.getElementById('walletResult');
+  result.textContent = message;
+  result.className = className;
+}
+
+// ===== WINDOW RESIZE HANDLER =====
+window.addEventListener('resize', () => {
+  initCanvas();
 });
-loop();
+
+// ===== INITIALIZE EVERYTHING =====
+document.addEventListener('DOMContentLoaded', () => {
+  loadEligibilityLists();
+  
+  // Set up wallet check button
+  document.querySelector('.wallet-check-button')?.addEventListener('click', toggleWalletCheck);
+  
+  // Set up verify button
+  document.querySelector('.verify-button')?.addEventListener('click', checkWallet);
+  
+  // Handle Enter key in wallet input
+  document.getElementById('walletInput')?.addEventListener('keypress', (e) => {
+    if (e.key === 'Enter') checkWallet();
+  });
+});
