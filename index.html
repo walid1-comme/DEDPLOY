@@ -66,10 +66,11 @@
       object-fit: contain;
     }
 
-    /* Wallet Check Button */
+    /* Wallet Check Button - NEW */
     .wallet-check-button {
       display: inline-flex;
       align-items: center;
+      justify-content: center;
       padding: 12px 24px;
       background-color: #000000;
       color: white;
@@ -100,16 +101,6 @@
       border-radius: 30px;
       margin-bottom: 10px;
       text-align: center;
-    }
-
-    .wallet-check-container button {
-      padding: 12px 24px;
-      background: #000;
-      color: white;
-      border: none;
-      border-radius: 30px;
-      cursor: pointer;
-      font-family: 'Comfy Feeling', sans-serif;
     }
 
     #walletResult {
@@ -189,7 +180,7 @@
 
         <!-- Atlas3 Button -->
         <a href="games/index.html" class="atlas3-button">
-          <img src="images/atlas3-logo.png" alt="Atlas3 Logo" class="atlas3-logo">
+          <img src="images/atlas3-logo.png" alt="Atlas3 Logo" class="atlas3-logo" />
           <span>Don't play</span>
         </a>
 
@@ -210,5 +201,33 @@
   <div class="social-button" onclick="window.open('https://linktr.ee/capybros1', '_blank')">🔗</div>
 
   <script src="js/script.js"></script>
+  <script>
+    // NEW Wallet Check Functions
+    function toggleWalletCheck() {
+      const container = document.getElementById('walletCheckContainer');
+      container.style.display = container.style.display === 'block' ? 'none' : 'block';
+    }
+
+    function checkWallet() {
+      const wallet = document.getElementById('walletInput').value.trim().toLowerCase();
+      const result = document.getElementById('walletResult');
+      
+      if (!wallet) {
+        result.textContent = "Please enter a wallet";
+        return;
+      }
+      
+      result.textContent = "Checking...";
+      
+      // Replace this with your actual check:
+      setTimeout(() => {
+        if (Math.random() > 0.5) {
+          result.textContent = "GTD Eligible";
+        } else {
+          result.textContent = "Not eligible";
+        }
+      }, 800);
+    }
+  </script>
 </body>
 </html>
