@@ -109,4 +109,61 @@ function checkWallet() {
   z-index: -1; /* Keeps bubbles behind your content */
   pointer-events: none; /* Allows clicks to pass through */
 }
+// Bubble Animation (Add this at the end of script.js)
+document.addEventListener('DOMContentLoaded', function() {
+  const canvas = document.getElementById('bubbleCanvas');
+  const ctx = canvas.getContext('2d');
+  
+  // Set canvas size
+  canvas.width = window.innerWidth;
+  canvas.height = window.innerHeight;
+  
+  // Bubble settings
+  const bubbles = [];
+  const bubbleCount = 150; // Adjust number of bubbles
+  
+  // Create bubbles
+  for (let i = 0; i < bubbleCount; i++) {
+    bubbles.push({
+      x: Math.random() * canvas.width,
+      y: canvas.height + Math.random() * 100,
+      radius: Math.random() * 3 + 1, // Size range (1px to 4px)
+      speed: 0.5 + Math.random() * 1.5, // Speed range (0.5 to 2)
+      opacity: 0.1 + Math.random() * 0.4 // Transparency (0.1 to 0.5)
+    });
+  }
+  
+  // Animation loop
+  function animateBubbles() {
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    
+    bubbles.forEach(bubble => {
+      // Move bubble upward
+      bubble.y -= bubble.speed;
+      
+      // Reset bubble to bottom if it goes off screen
+      if (bubble.y < -10) {
+        bubble.y = canvas.height + 10;
+        bubble.x = Math.random() * canvas.width;
+      }
+      
+      // Draw bubble
+      ctx.beginPath();
+      ctx.arc(bubble.x, bubble.y, bubble.radius, 0, Math.PI * 2);
+      ctx.fillStyle = `rgba(255, 255, 255, ${bubble.opacity})`;
+      ctx.fill();
+    });
+    
+    requestAnimationFrame(animateBubbles);
+  }
+  
+  // Handle window resize
+  window.addEventListener('resize', function() {
+    canvas.width = window.innerWidth;
+    canvas.height = window.innerHeight;
+  });
+  
+  // Start animation
+  animateBubbles();
+});
 loop();
