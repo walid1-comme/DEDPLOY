@@ -1,80 +1,342 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <link rel="stylesheet" href="css/styles.css" />
-  <title>I'm your CapyBros</title>
-</head>
-<body>
-  <section>
-    <canvas id="beerCanvas"></canvas>
-    <div class="coming_content">
-      <div id="imageAnimation"></div>
+/* =======================
+   Fonts
+========================== */
+@font-face {
+  font-family: 'Comfy Feeling';
+  src: url('../fonts/Comfy%20Feeling.otf') format('opentype');
+}
 
-      <h1>He came. He saw. He capy'd the whole scene</h1>
+/* =======================
+   Global Styles
+========================== */
+body,
+html {
+  margin: 0;
+  padding: 0;
+  width: 100%;
+  height: 100%;
+  font-family: 'Comfy Feeling', 'Arial', sans-serif;
+  overflow-x: hidden;
+}
 
-      <div class="separator_container">
-        <div class="separator line_separator">
-          <span>
-            <svg height="200px" width="200px" xmlns="http://www.w3.org/2000/svg" fill="#ffffff">
-              <g>
-                <path d="M256 112c-79.5 0-144 64.5-144 144s64.5 144 144 144 144-64.5 144-144S335.5 112 256 112zm0 240c-52.9 0-96-43.1-96-96s43.1-96 96-96 96 43.1 96 96-43.1 96-96 96z"/>
-                <path d="M256 192c-35.3 0-64 28.7-64 64s28.7 64 64 64 64-28.7 64-64-28.7-64-64-64zm0 96c-17.7 0-32-14.3-32-32s14.3-32 32-32 32 14.3 32 32-14.3 32-32 32z"/>
-                <path d="M352 200c-8.8 0-16 7.2-16 16s7.2 16 16 16 16-7.2 16-16-7.2-16-16-16zM160 200c-8.8 0-16 7.2-16 16s7.2 16 16 16 16-7.2 16-16-7.2-16-16-16z"/>
-              </g>
-            </svg>
-          </span>
-        </div>
-      </div>
+/* =======================
+   Background + Layout
+========================== */
+section {
+  min-height: 100vh;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  background: radial-gradient(circle, #072723, #ffffff);
+  position: relative;
+  padding-bottom: 100px; /* Enough room for footer */
+  box-sizing: border-box;
+}
 
-      <h3>CapyBros is FREE on HyperEVM to make NFTs fun again</h3>
+/* =======================
+   Canvas
+========================== */
+#beerCanvas {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 100;
+}
 
-      <div class="button-group">
-        <a href="https://twitter.com/capybros1" target="_blank" class="button-base twitter-button">
-          <svg viewBox="0 0 24 24" class="twitter-icon">
-            <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/>
-          </svg>
-          <span>CATCH ME</span>
-        </a>
+/* =======================
+   Coming Content Section
+========================== */
+.coming_content {
+  width: 70%;
+  margin: 0 auto;
+  color: white;
+  text-align: center;
+  z-index: 101;
+}
 
-        <a href="games/index.html" class="button-base atlas3-button">
-          <img src="images/atlas3-logo.png" alt="Atlas3 Logo" class="atlas3-logo" />
-          <span>Don't play</span>
-        </a>
+.coming_content h1 {
+  font-size: 4rem;
+  margin: 0;
+  letter-spacing: 2px;
+  text-align: center;
+  color: white;
+}
 
-        <button class="button-base wallet-check-button" onclick="toggleWalletCheck()">
-          CHECK ELIGIBILITY
-        </button>
-      </div>
+.coming_content h3 {
+  letter-spacing: 2px;
+  line-height: 2;
+  font-size: 1rem;
+  font-weight: 400;
+  text-align: center;
+  margin: 0;
+  font-family: 'Comfy Feeling', sans-serif;
+}
 
-      <div class="wallet-check-container" id="walletCheckContainer">
-        <input type="text" id="walletInput" class="wallet-input" placeholder="Enter wallet address" />
-        <button class="button-base wallet-check-button" onclick="checkWallet()">VERIFY</button>
-        <p id="walletResult"></p>
-      </div>
-    </div>
-  </section>
+.coming_content h3 a {
+  text-decoration: underline;
+  color: white;
+}
 
-  <!-- Link Button (top right) -->
-  <div class="social-button" onclick="window.open('https://linktr.ee/capybros1', '_blank')">🔗</div>
+/* =======================
+   Separator
+========================== */
+.separator_container {
+  width: 100%;
+  display: block;
+  text-align: center;
+  margin: 12px 0;
+  position: relative;
+}
 
-  <!-- Footer Social Links -->
-  <div class="social-footer">
-    <a href="https://discord.gg/pUNbym7E" target="_blank">
-      <img src="images/discord.png" alt="Discord Icon">
-    </a>
-    <a href="https://x.com/capybros1" target="_blank">
-      <img src="images/twitter.png" alt="Twitter Icon">
-    </a>
-    <a href="https://drip.trade/collections/capybros" target="_blank">
-      <img src="images/drip.png" alt="Drip Icon">
-    </a>
-    <a href="https://www.gitbook.com/" target="_blank">
-      <img src="images/git.png" alt="Gitbook">
-    </a>
-  </div>
+.separator {
+  color: white;
+  margin: 0 auto 1em;
+  width: 11em;
+}
 
-  <script src="js/script.js"></script>
-</body>
-</html>
+.line_separator svg {
+  width: 30px;
+  height: 20px;
+}
+
+.line_separator:before,
+.line_separator:after {
+  display: block;
+  width: 40%;
+  content: " ";
+  margin-top: 14px;
+  border: 1px solid white;
+}
+
+.line_separator:before {
+  float: left;
+}
+
+.line_separator:after {
+  float: right;
+}
+
+/* =======================
+   Image Animation
+========================== */
+#imageAnimation {
+  margin: 0 auto 20px;
+  width: 150px;
+  height: 150px;
+  background-size: cover;
+  background-position: center;
+  animation: imageCycle 0.5s steps(1) infinite;
+  z-index: 101;
+}
+
+@keyframes imageCycle {
+  0% { background-image: url('../images/bera1.png'); }
+  25% { background-image: url('../images/bera2.png'); }
+  50% { background-image: url('../images/bera3.png'); }
+  75% { background-image: url('../images/bera4.png'); }
+  100% { background-image: url('../images/bera1.png'); }
+}
+
+/* =======================
+   Button Groups
+========================== */
+.button-group {
+  display: flex;
+  justify-content: center;
+  gap: 15px;
+  margin-top: 25px;
+  flex-wrap: wrap;
+}
+
+/* Generic Button Base Style */
+.button-base {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  padding: 14px 28px;
+  border-radius: 40px;
+  font-family: 'Comfy Feeling', sans-serif;
+  font-size: 1.1rem;
+  letter-spacing: 0.5px;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+  text-decoration: none;
+  cursor: pointer;
+  border: none;
+}
+
+/* ❌ Catch Me Button */
+.twitter-button {
+  background: linear-gradient(145deg, #111, #000);
+  color: #ffffff;
+  border: 2px solid #ffffff;
+}
+.twitter-button:hover {
+  background: #222;
+  transform: scale(1.05);
+  box-shadow: 0 6px 16px rgba(255, 255, 255, 0.2);
+}
+
+.twitter-icon {
+  width: 20px;
+  height: 20px;
+  fill: currentColor;
+}
+
+/* 🐢 Don't Play Button */
+.atlas3-button {
+  background-color: #ffffff;
+  color: #000000;
+  border: 2px solid #000000;
+  gap: 8px;
+  padding: 12px 26px;
+}
+.atlas3-button:hover {
+  background-color: #f9f9f9;
+  transform: scale(1.05);
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+.atlas3-logo {
+  width: 18px;
+  height: 18px;
+  object-fit: contain;
+}
+
+/* ✅ Check Eligibility Button */
+.wallet-check-button {
+  background: linear-gradient(145deg, #000, #111);
+  color: white;
+  border: 2px solid #ffffff;
+  border-radius: 40px;
+  font-family: 'Comfy Feeling', sans-serif;
+  padding: 14px 28px;
+  font-size: 1.1rem;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+}
+.wallet-check-button:hover {
+  background-color: #222;
+  transform: scale(1.05);
+  box-shadow: 0 6px 16px rgba(255, 255, 255, 0.2);
+}
+
+/* Wallet Input & Result */
+.wallet-check-container {
+  display: none;
+  margin: 20px auto;
+  max-width: 400px;
+  text-align: center;
+}
+
+.wallet-input {
+  padding: 12px;
+  width: 80%;
+  border: 2px solid #000;
+  border-radius: 30px;
+  margin-bottom: 10px;
+  text-align: center;
+  font-family: 'Comfy Feeling', sans-serif;
+}
+
+#walletResult {
+  margin-top: 15px;
+  font-weight: bold;
+  font-size: 1.1rem;
+}
+
+/* =======================
+   Linktree Button (Top Right)
+========================== */
+.social-button {
+  position: fixed;
+  top: 20px;
+  right: 20px;
+  background: rgb(2, 0, 15);
+  border: 2px solid #ecdede;
+  border-radius: 50%;
+  width: 50px;
+  height: 50px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 24px;
+  cursor: pointer;
+  z-index: 1000;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+  transition: all 0.3s ease;
+}
+
+.social-button:hover {
+  transform: scale(1.1);
+  background: #f0f0f0;
+}
+
+/* =======================
+   Footer Social Links
+========================== */
+.social-footer {
+  position: fixed;
+  bottom: 10px;
+  left: 0;
+  right: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 20px;
+  z-index: 999;
+  padding: 10px;
+  pointer-events: auto;
+}
+
+.social-footer a {
+  width: 32px;
+  height: 32px;
+  display: inline-block;
+  transition: transform 0.3s ease;
+}
+
+.social-footer a img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+
+.social-footer a:hover {
+  transform: scale(1.2);
+}
+
+/* =======================
+   Mobile Styles
+========================== */
+@media (max-width: 768px) {
+  .button-group {
+    flex-direction: column;
+    align-items: center;
+    gap: 12px;
+  }
+
+  .wallet-input {
+    width: 90%;
+  }
+
+  .twitter-icon,
+  .atlas3-logo {
+    width: 16px;
+    height: 16px;
+  }
+
+  .wallet-check-button {
+    width: 90%;
+  }
+
+  .social-footer {
+    gap: 12px;
+    bottom: 8px;
+  }
+}
